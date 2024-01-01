@@ -7,9 +7,19 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@arco-design/web-vue": "^2.54.1",
+    "@vueuse/core": "^10.7.1",
+    "await-to-js": "^3.0.0",
+    "codemirror": "5.52.2",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.10",
+    "dexie": "^3.2.4",
+    "lodash-es": "^4.17.21",
+    "unplugin-auto-import": "^0.17.3",
+    "unplugin-vue-components": "^0.26.0",
     "uuid": "^9.0.1",
     "vue": "^3.2.13",
+    "vue-codemirror": "^6.1.1",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
@@ -17,6 +27,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.16",
+    "highlight.js": "^11.9.0",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "naive-ui": "^2.36.0",

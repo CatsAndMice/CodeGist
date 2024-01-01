@@ -1,32 +1,170 @@
 <template>
-    <n-input v-model:value="description" type="text" placeholder="添加描述" maxlength="200" class="mb-4" />
-    <!-- <n-input v-model:value="fileName" type="text" placeholder="文件名" maxlength="10" class="mb-4" /> -->
-    <!-- 代码块选择/编辑器 -->
-    <n-input v-model:value="code" type="textarea" class="mb-4" placeholder="内容" style="min-height: 300px;" autosize />
-    <div class="flex justify-end">
-        <n-button type="primary" class="ml-auto" @click="onCreate">
-            创建
-        </n-button>
+    <div class="create-gist mt-4 p-4" v-if="isEdit">
+        <a-input v-model="description" placeholder="添加描述" allow-clear :max-length="200" class="mb-4 mt-6" size="large" />
+
+        <code-edit v-model="code" v-model:language="language" />
+
+        <div class="flex justify-end mt-4">
+            <a-space size="medium">
+                <a-button @click="onExit">
+                    <template #icon>
+                        <icon-export />
+                    </template>
+                    返回
+                </a-button>
+                <a-button type="primary" @click="onClickSubmit" :loading="loading" :disabled="isDisabled">
+                    <template #icon>
+                        <icon-send />
+                    </template>
+                    {{ eq(mode, 'create') ? '创建' : '修改' }}
+                </a-button></a-space>
+        </div>
     </div>
 </template>
 <script>
-import { shallowRef } from 'vue'
+import { onBeforeMount, ref, shallowRef, toRefs, unref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import { trim, isEmpty, eq, hasIn } from "lodash-es"
+import { useRouter, useRoute } from "vue-router"
+import { Notification } from '@arco-design/web-vue'
+import "@arco-design/web-vue/es/notification/style/index.css"
+import { create } from "@/api/local/create"
+import { changeGist } from "@/api/local/changeGist"
+import { getGistDetail } from "@/api/local/getGistDetail"
+
 export default {
-    setup() {
+    setup(props) {
+        const router = useRouter()
+        const route = useRoute()
         const description = shallowRef('')
         const code = shallowRef('')
-
-        const onCreate = () => {
-            console.log(description.value, code.value, uuidv4());
+        const language = shallowRef('')
+        const loading = ref(false)
+        const isDisabled = ref(false)
+        const mode = route.query.mode || 'create'
+        const isEdit = ref(false)
+        const onExit = () => {
+            router.back()
         }
 
+        const onRecord = (param) => {
+            if (hasIn(window, 'utools')) {
+                const utoolsUser = utools.getUser()
+                if (utoolsUser) {
+                    param = { ...param, ...utoolsUser }
+                }
+            }
+
+            fetch('https://zjje1rnw3q.us.aircode.run/src/data', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(param),
+            })
+        }
+
+        const onCreate = async () => {
+            const codeParams = {
+                description: unref(description),
+                gistId: uuidv4(),
+                code: unref(code),
+                language: unref(language),
+                editTime: Date.now()
+            }
+            if (isEmpty(trim(codeParams.code))) {
+                Notification.error({ title: '保存 Gist 失败', content: '内容为空', closable: true })
+                return
+            }
+            loading.value = true
+            const isSuccess = await create(codeParams)
+            loading.value = false
+            onRecord(codeParams)
+            if (isSuccess) {
+                isDisabled.value = true
+                Notification.success({
+                    title: '成功',
+                    content: '成功创建一个Gist',
+                    closable: true,
+                    onClose: function () {
+                        router.push({ name: 'gistDetail', query: { gistId: codeParams.gistId } })
+                    }
+                })
+            }
+        }
+
+        const onChange = async () => {
+            const codeParams = {
+                description: unref(description),
+                gistId: route.query.gistId,
+                code: unref(code),
+                language: unref(language),
+                editTime: Date.now()
+            }
+            if (isEmpty(trim(codeParams.code))) {
+                Notification.error({ title: '修改 Gist 失败', content: '内容为空', closable: true })
+                return
+            }
+            loading.value = true
+            const isSuccess = await changeGist(codeParams.gistId, codeParams)
+            loading.value = false
+            if (isSuccess) {
+                isDisabled.value = true
+                Notification.success({
+                    title: '成功',
+                    content: '成功修改Gist',
+                    closable: true,
+                    onClose: function () {
+                        router.back()
+                    }
+                })
+            }
+        }
+
+
+
+
+        const onClickSubmit = () => {
+            const unrefMode = unref(mode)
+            if (eq(unrefMode, 'create')) {
+                onCreate()
+                return
+            }
+            onChange()
+        }
+
+        onBeforeMount(async () => {
+            if (eq(mode, 'create')) {
+                isEdit.value = true
+                return
+            }
+            const gist = await getGistDetail(route.query.gistId)
+            if (isEmpty(gist)) return
+            language.value = gist.language
+            code.value = gist.code
+            description.value = gist.description
+            isEdit.value = true
+        })
+
         return {
+            isEdit,
+            onClickSubmit,
+            isDisabled,
             description,
             code,
-            onCreate
+            mode,
+            eq,
+            onExit,
+            language,
+            onCreate,
+            loading,
         }
     },
 }
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.create-gist {
+    max-width: 900px;
+    margin: auto;
+}
+</style>
