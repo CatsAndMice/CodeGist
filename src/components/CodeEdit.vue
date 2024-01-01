@@ -20,7 +20,7 @@
 <script>
 import { templateRef } from "@vueuse/core"
 import { onMounted, ref, toRefs, unref } from 'vue'
-import { clone,  } from "lodash-es"
+import { clone, } from "lodash-es"
 import CodeMirror from 'codemirror/lib/codemirror'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/sql/sql'
@@ -35,7 +35,12 @@ import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/php/php'
 //shell、yaml、dockerfile、dart、python、rust、markdown、java,c,cpp、htmlmixed、css、javascript、sql
-
+const clikeObject = {
+    'java': 'text/x-java',
+    'c': 'text/x-csrc',
+    'c++': 'text/x-c++src',
+    html: 'htmlmixed'
+}
 export default {
     name: "CodeEdit",
     install(Vue) {
@@ -63,14 +68,9 @@ export default {
             if (unref(lang) === value) return
             emit('update:language', value)
             lang.value = value
-            const clike = {
-                'java': 'text/x-java',
-                'c': 'text/x-csrc',
-                'c++': 'text/x-c++src',
-                html: 'htmlmixed'
-            }
-            if (clike[value]) {
-                codeMirror.setOption('mode', clike[value])
+
+            if (clikeObject[value]) {
+                codeMirror.setOption('mode', clikeObject[value])
                 return
             }
             codeMirror.setOption('mode', langs.value.includes(value) ? value : null)
@@ -99,10 +99,11 @@ export default {
 
 
         onMounted(() => {
+
             langs.value = getModes(CodeMirror.modes)
             codeMirror = CodeMirror(unref(codeEl), {
                 value: unref(modelValue),
-                mode: unref(language) || null,
+                mode: clikeObject[unref(language)] ? clikeObject[unref(language)] : (unref(language) || null),
                 theme: 'default',
                 lineNumbers: true,
             });

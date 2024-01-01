@@ -41,8 +41,6 @@ import { getGistDetail } from "@/api/local/getGistDetail"
 import { deleteGist } from "@/api/local/deleteGist"
 import { isEmpty } from "lodash-es"
 import dayjs from "dayjs"
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
 export default {
     setup() {
         const router = useRouter()
@@ -50,6 +48,7 @@ export default {
         const detail = ref({})
 
         const onExit = () => {
+            console.log(121);
             router.back()
         }
 
@@ -66,6 +65,7 @@ export default {
 
         onBeforeMount(async () => {
             const gist = await getGistDetail(route.query.gistId)
+            console.log(gist);
             if (isEmpty(gist)) return
             detail.value = gist
         })

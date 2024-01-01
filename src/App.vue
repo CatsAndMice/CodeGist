@@ -1,7 +1,7 @@
 <template>
   <!-- 头部 -->
   <div style="background-color: #24292f;--color-text-1:#fff;">
-    <a-page-header title="CodeGist" subtitle="即刻记录笔记、代码片段" :show-back="false">
+    <a-page-header title="CodeGist" subtitle="即刻记录笔记、代码" :show-back="false">
       <template #extra>
         <div class="flex items-center">
           <div v-show="!eq(route.name, pageName)" style="height: 30px;">
