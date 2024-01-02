@@ -7,8 +7,8 @@
             :dotStyle="{ background: '#E5E6EB', color: '#86909C', boxShadow: 'none' }" />
         </div>
       </a-button>
-      <a-input-search v-model="gistParams.name" :style="{ 'max-width': '300px' }" @input="onInput" :max-length="20"
-        placeholder="请输入 Gist 描述" allow-clear />
+      <a-input-search v-model="gistParams.name" @clear="onInput" :style="{ 'max-width': '300px' }" @input="onInput"
+        :max-length="20" placeholder="请输入 Gist 描述" allow-clear />
     </div>
     <a-divider margin="0" />
 
@@ -30,7 +30,7 @@
     </template>
 
     <a-skeleton v-else :animation="true">
-      <a-space direction="vertical" :style="{ width: '100%' }" size="large" >
+      <a-space direction="vertical" :style="{ width: '100%' }" size="large">
         <a-skeleton-line :rows="5" />
       </a-space>
     </a-skeleton>

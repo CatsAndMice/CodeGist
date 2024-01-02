@@ -64,8 +64,10 @@ export default {
         const langs = ref([])
         const lang = ref(unref(language))
         const codeEl = templateRef('codeEl')
+
         const onSelect = (value) => {
             if (unref(lang) === value) return
+            localStorage.setItem('language', value)
             emit('update:language', value)
             lang.value = value
 
@@ -99,7 +101,6 @@ export default {
 
 
         onMounted(() => {
-
             langs.value = getModes(CodeMirror.modes)
             codeMirror = CodeMirror(unref(codeEl), {
                 value: unref(modelValue),

@@ -16,7 +16,7 @@
                     <template #icon>
                         <icon-send />
                     </template>
-                    {{ eq(mode, 'create') ? '创建' : '修改' }}
+                    {{ eq(mode, CREATE) ? '创建' : '修改' }}
                 </a-button></a-space>
         </div>
     </div>
@@ -32,16 +32,19 @@ import { create } from "@/api/local/create"
 import { changeGist } from "@/api/local/changeGist"
 import { getGistDetail } from "@/api/local/getGistDetail"
 
+const CREATE = 'create'
 export default {
     setup(props) {
         const router = useRouter()
         const route = useRoute()
+        const mode = route.query.mode || CREATE
         const description = shallowRef('')
         const code = shallowRef('')
-        const language = shallowRef('')
+        // 获取曾经选择的语言类型
+        const lang = eq(mode, CREATE) ? (localStorage.getItem('language') || '') : ''
+        const language = shallowRef(lang)
         const loading = ref(false)
         const isDisabled = ref(false)
-        const mode = route.query.mode || 'create'
         const isEdit = ref(false)
         const onExit = () => {
             if (history.state) {
@@ -125,7 +128,7 @@ export default {
 
         const onClickSubmit = () => {
             const unrefMode = unref(mode)
-            if (eq(unrefMode, 'create')) {
+            if (eq(unrefMode, CREATE)) {
                 onCreate()
                 return
             }
@@ -133,10 +136,12 @@ export default {
         }
 
         onBeforeMount(async () => {
-            if (eq(mode, 'create')) {
+            //创建模式
+            if (eq(mode, CREATE)) {
                 isEdit.value = true
                 return
             }
+            //修改模式
             const gist = await getGistDetail(route.query.gistId)
             if (isEmpty(gist)) return
             language.value = gist.language
@@ -146,6 +151,7 @@ export default {
         })
 
         return {
+            CREATE,
             isEdit,
             onClickSubmit,
             isDisabled,
