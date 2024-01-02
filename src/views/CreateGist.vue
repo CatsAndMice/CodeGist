@@ -44,7 +44,11 @@ export default {
         const mode = route.query.mode || 'create'
         const isEdit = ref(false)
         const onExit = () => {
-            router.back()
+            if (history.state) {
+                router.back()
+                return
+            }
+            router.replace({ name: 'homeView' })
         }
 
         const onRecord = (param) => {
@@ -114,15 +118,10 @@ export default {
                     title: '成功',
                     content: '成功修改Gist',
                     closable: true,
-                    onClose: function () {
-                        router.back()
-                    }
+                    onClose: onExit
                 })
             }
         }
-
-
-
 
         const onClickSubmit = () => {
             const unrefMode = unref(mode)

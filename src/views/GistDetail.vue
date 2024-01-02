@@ -5,7 +5,7 @@
             <icon-code size="32px" />
             <div class="pl-2">
                 <a-link class="text-base font-semibold" :hoverable="false">Gist:{{ detail.gistId || '无' }}</a-link>
-                <p v-if="detail.editTime" class="m-0 text-xs text-nowrap truncate" style="color:rgb(101, 109, 118);">{{ '编辑于 ' + dayjs(detail.editTime).fromNow() }}</p>
+                <p v-if="detail.editTime" class="m-0 text-xs text-nowrap truncate" style="color:rgb(101, 109, 118);">{{ `编辑于 ${dayjs(detail.editTime).fromNow()}` }}</p>
             </div>
         </div>
         <a-space>
@@ -41,6 +41,7 @@ import { getGistDetail } from "@/api/local/getGistDetail"
 import { deleteGist } from "@/api/local/deleteGist"
 import { isEmpty } from "lodash-es"
 import dayjs from "dayjs"
+
 export default {
     setup() {
         const router = useRouter()
@@ -48,8 +49,11 @@ export default {
         const detail = ref({})
 
         const onExit = () => {
-            console.log(121);
-            router.back()
+            if (history.state) {
+                router.back()
+                return
+            }
+            router.replace({ name: 'homeView' })
         }
 
         const onChange = () => {
