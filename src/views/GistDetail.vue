@@ -5,7 +5,8 @@
             <icon-code size="32px" />
             <div class="pl-2">
                 <a-link class="text-base font-semibold" :hoverable="false">Gist:{{ detail.gistId || '无' }}</a-link>
-                <p v-if="detail.editTime" class="m-0 text-xs text-nowrap truncate" style="color:rgb(101, 109, 118);">{{ `编辑于 ${dayjs(detail.editTime).fromNow()}` }}</p>
+                <p v-if="detail.editTime" class="m-0 text-xs text-nowrap truncate" style="color:rgb(101, 109, 118);">{{ `编辑于
+                    ${dayjs(detail.editTime).fromNow()}` }}</p>
             </div>
         </div>
         <a-space>
@@ -15,10 +16,12 @@
                 </template>
                 编辑
             </a-button>
-            <a-button status="danger" @click="onDelete">
-                <template #icon><icon-delete /></template>
-                删除
-            </a-button>
+            <a-popconfirm content="是否确认删除?" type="error" @ok="onDelete">
+                <a-button status="danger">
+                    <template #icon><icon-delete /></template>
+                    删除
+                </a-button>
+            </a-popconfirm>
             <a-button @click="onExit">
                 <template #icon>
                     <icon-export />
