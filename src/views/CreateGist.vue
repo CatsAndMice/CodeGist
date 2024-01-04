@@ -169,7 +169,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .create-gist {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
 }
 </style>

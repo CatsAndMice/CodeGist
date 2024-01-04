@@ -38,7 +38,7 @@
 
   <a-divider margin="0" />
   <!-- 内容 -->
-  <div class="main pt-0">
+  <div class="pt-0">
     <router-view />
   </div>
 </template>

@@ -90,6 +90,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .all-gist {
-    max-width: 900px;
+    max-width: 1000px;
 }
 </style>
