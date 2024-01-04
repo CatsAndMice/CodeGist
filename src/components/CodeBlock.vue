@@ -5,7 +5,7 @@
                 <span class="mr-1"> {{ language || '纯文本' }}</span>
             </div>
             <a-divider margin="0" />
-            <div class="code  rounded-sm">
+            <div class="code  rounded-sm px-3" style="overflow-x: auto;">
                 <n-code :code="code" :language="getLanguage(language)" show-line-numbers ref="code" />
             </div>
         </div>
