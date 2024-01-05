@@ -31,6 +31,7 @@ import "@arco-design/web-vue/es/notification/style/index.css"
 import { create } from "@/api/local/create"
 import { changeGist } from "@/api/local/changeGist"
 import { getGistDetail } from "@/api/local/getGistDetail"
+import pageScroll from "@/utils/pageScroll"
 
 const CREATE = 'create'
 export default {
@@ -80,7 +81,7 @@ export default {
                 editTime: Date.now()
             }
             if (isEmpty(trim(codeParams.code))) {
-                Notification.error({ title: '保存 Gist 失败', content: '内容为空', closable: true })
+                Notification.error({ title: '保存 Gist 失败', content: '内容为空', closable: true, duration: 1000 })
                 return
             }
             loading.value = true
@@ -93,7 +94,9 @@ export default {
                     title: '成功',
                     content: '成功创建一个Gist',
                     closable: true,
+                    duration: 1000,
                     onClose: function () {
+                        pageScroll.setTop()
                         router.push({ name: 'gistDetail', query: { gistId: codeParams.gistId } })
                     }
                 })
@@ -109,7 +112,7 @@ export default {
                 editTime: Date.now()
             }
             if (isEmpty(trim(codeParams.code))) {
-                Notification.error({ title: '修改 Gist 失败', content: '内容为空', closable: true })
+                Notification.error({ title: '修改 Gist 失败', content: '内容为空', closable: true, duration: 1000 })
                 return
             }
             loading.value = true
@@ -121,6 +124,7 @@ export default {
                     title: '成功',
                     content: '成功修改Gist',
                     closable: true,
+                    duration: 1000,
                     onClose: onExit
                 })
             }

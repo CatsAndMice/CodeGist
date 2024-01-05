@@ -57,18 +57,20 @@
 </template>
 <script>
 import { useRouter } from "vue-router"
-import { onBeforeMount, reactive, ref } from "vue"
+import { reactive, ref, onActivated, nextTick } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import dayjs from "dayjs"
 import { debounce } from "lodash-es"
-
+import pageScroll from "@/utils/pageScroll"
 export default {
   name: 'HomeView',
   setup() {
     const router = useRouter()
     const gistParams = reactive({ page: 1, size: 10, loading: false, hasMore: true, total: 0, name: '' })
     const gistList = ref([])
+
     const onClickGistListItem = (gistId) => {
+      pageScroll.setTop(document.documentElement.scrollTop)
       router.push({ name: 'gistDetail', query: { gistId } })
     }
 
@@ -83,29 +85,33 @@ export default {
         size: gistParams.size,
         name: gistParams.name
       })
-
+      console.log(list);
       if (list) {
         gistParams.hasMore = list.hasMore
         gistParams.total = list.total
         gistList.value = list.data
       }
-      console.log(gistList.value);
       gistParams.loading = false
+      //页面滚动到原处
+      pageScroll.scrollTo()
     }
 
     const onInput = debounce(getList, 1000)
 
     const onPrevPage = () => {
+      pageScroll.setTop()
       gistParams.page--
       getList()
     }
 
     const onNextPage = () => {
+      pageScroll.setTop()
       gistParams.page++
       getList()
     }
 
-    onBeforeMount(getList)
+    // 首次持载也会被触发
+    onActivated(getList)
     return {
       dayjs,
       onInput,

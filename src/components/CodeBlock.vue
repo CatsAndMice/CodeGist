@@ -112,7 +112,7 @@ export default {
             padding-right: 3px;
             margin-right: 4px;
             padding-left: 5px;
-            width: 20px;
+            min-width: 20px;
             border-right: 1px solid #ddd;
             background-color: #f7f7f7;
             color: #999;
