@@ -5,7 +5,7 @@
                 <span class="mr-1"> {{ language || '纯文本' }}</span>
             </div>
             <a-divider margin="0" />
-            <div class="code  rounded-sm px-3" style="overflow-x: auto;">
+            <div :class="isText ? 'code  rounded-sm' : 'code  rounded-sm px-3'" style="overflow-x: auto;">
                 <n-code :code="code" :language="getLanguage(language)" show-line-numbers ref="code" />
             </div>
         </div>
@@ -30,7 +30,7 @@ import python from "highlight.js/lib/languages/python"
 import rust from "highlight.js/lib/languages/rust"
 import php from "highlight.js/lib/languages/php"
 import go from "highlight.js/lib/languages/go"
-import { unref } from 'vue'
+import { toRefs, unref } from 'vue'
 
 const modes = {
     javascript,
@@ -75,13 +75,12 @@ export default {
         },
         language: {
             type: String,
-            default: '',
-            validator: (value) => {
-                return hasIn(modes, value)
-            }
+            default: ''
         },
     },
-    setup() {
+    setup(props) {
+        const { language } = toRefs(props)
+        const isText = hasIn(modes, unref(language))
         const getLanguage = (language) => {
             const l = unref(language)
             //html 要大写
@@ -93,6 +92,7 @@ export default {
         }
         return {
             hljs,
+            isText,
             getLanguage
         }
     },
