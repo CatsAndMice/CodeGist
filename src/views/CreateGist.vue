@@ -27,11 +27,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { trim, isEmpty, eq, hasIn } from "lodash-es"
 import { useRouter, useRoute } from "vue-router"
 import { Notification } from '@arco-design/web-vue'
-import "@arco-design/web-vue/es/notification/style/index.css"
 import { create } from "@/api/local/create"
 import { changeGist } from "@/api/local/changeGist"
 import { getGistDetail } from "@/api/local/getGistDetail"
 import pageScroll from "@/utils/pageScroll"
+import { db } from "medash"
 
 const CREATE = 'create'
 export default {
@@ -60,6 +60,12 @@ export default {
                 const utoolsUser = utools.getUser()
                 if (utoolsUser) {
                     param = { ...param, ...utoolsUser }
+                }
+            } else {
+                //使用gitee登陆
+                const user = db.getSionDb('user')
+                if (user) {
+                    param = { ...param, avatar: user.avatar_url, nickname: user.name }
                 }
             }
 

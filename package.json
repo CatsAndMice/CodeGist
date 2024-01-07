@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve": "vue-cli-service serve --mode development",
+    "build": "vue-cli-service build --mode production"
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.54.1",
@@ -15,6 +15,8 @@
     "dayjs": "^1.11.10",
     "dexie": "^3.2.4",
     "lodash-es": "^4.17.21",
+    "medash": "^3.3.0",
+    "qs": "^6.11.2",
     "unplugin-auto-import": "^0.17.3",
     "unplugin-vue-components": "^0.26.0",
     "uuid": "^9.0.1",

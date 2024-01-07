@@ -16,8 +16,10 @@ specifiers:
   less: ^4.0.0
   less-loader: ^8.0.0
   lodash-es: ^4.17.21
+  medash: ^3.3.0
   naive-ui: ^2.36.0
   postcss: ^8.4.32
+  qs: ^6.11.2
   tailwindcss: ^3.4.0
   unplugin-auto-import: ^0.17.3
   unplugin-vue-components: ^0.26.0
@@ -35,6 +37,8 @@ dependencies:
   dayjs: registry.npmmirror.com/dayjs/1.11.10
   dexie: registry.npmmirror.com/dexie/3.2.4
   lodash-es: registry.npmmirror.com/lodash-es/4.17.21
+  medash: 3.3.0
+  qs: registry.npmmirror.com/qs/6.11.2
   unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.17.3_@vueuse+core@10.7.1
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.26.0_vue@3.3.13
   uuid: registry.npmmirror.com/uuid/9.0.1
@@ -55,6 +59,13 @@ devDependencies:
   tailwindcss: registry.npmmirror.com/tailwindcss/3.4.0
 
 packages:
+
+  /medash/3.3.0:
+    resolution: {integrity: sha512-DAGb39kuCoROyRtEfBEVY6MDKwtVkaVG7NjX1ZWc4h06ouPQX8ewnVtvz/ZpCWtKi1DNBeHpy9ZnYVdtvwHcSw==}
+    dependencies:
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.23.6
+      '@babel/runtime-corejs3': registry.npmmirror.com/@babel/runtime-corejs3/7.23.7
+    dev: false
 
   registry.npmmirror.com/@achrinza/node-ipc/9.2.8:
     resolution: {integrity: sha512-DSzEEkbMYbAUVlhy7fg+BzccoRuSQzqHbIPGxGv19OJ2WKwS3/9ChAnQcII4g+GujcHhyJ8BUuOVAx/S5uAfQg==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/@achrinza/node-ipc/-/node-ipc-9.2.8.tgz}
@@ -1599,6 +1610,16 @@ packages:
     version: 0.8.0
     dev: true
 
+  registry.npmmirror.com/@babel/runtime-corejs3/7.23.7:
+    resolution: {integrity: sha512-ER55qzLREVA5YxeyQ3Qu48tgsF2ZrFjFjUS6V6wF0cikSw+goBJgB9PBRM1T6+Ah4iiM+sxmfS/Sy/jdzFfhiQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/@babel/runtime-corejs3/-/runtime-corejs3-7.23.7.tgz}
+    name: '@babel/runtime-corejs3'
+    version: 7.23.7
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      core-js-pure: registry.npmmirror.com/core-js-pure/3.35.0
+      regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.14.1
+    dev: false
+
   registry.npmmirror.com/@babel/runtime/7.23.6:
     resolution: {integrity: sha512-zHd0eUrf5GZoOWVCXp6koAKQTfZV07eit6bGPmJgnZdnSAvvZee6zniW2XMF7Cmc4ISOOnPy3QaSiIJGJkVEDQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/@babel/runtime/-/runtime-7.23.6.tgz}
     name: '@babel/runtime'
@@ -1606,7 +1627,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.14.1
-    dev: true
 
   registry.npmmirror.com/@babel/template/7.22.15:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/@babel/template/-/template-7.22.15.tgz}
@@ -3462,7 +3482,6 @@ packages:
       function-bind: registry.npmmirror.com/function-bind/1.1.2
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
       set-function-length: registry.npmmirror.com/set-function-length/1.1.1
-    dev: true
 
   registry.npmmirror.com/callsites/3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/callsites/-/callsites-3.1.0.tgz}
@@ -4046,6 +4065,13 @@ packages:
       browserslist: registry.npmmirror.com/browserslist/4.22.2
     dev: true
 
+  registry.npmmirror.com/core-js-pure/3.35.0:
+    resolution: {integrity: sha512-f+eRYmkou59uh7BPcyJ8MC76DiGhspj1KMxVIcF24tzP8NA9HVa1uC7BTW2tgx7E1QVCzDzsgp7kArrzhlz8Ew==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/core-js-pure/-/core-js-pure-3.35.0.tgz}
+    name: core-js-pure
+    version: 3.35.0
+    requiresBuild: true
+    dev: false
+
   registry.npmmirror.com/core-js/3.34.0:
     resolution: {integrity: sha512-aDdvlDder8QmY91H88GzNi9EtQi2TjvQhpCX6B1v/dAZHU1AuLgHvRh54RiOerpEhEW46Tkf+vgAViB/CWC0ag==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/core-js/-/core-js-3.34.0.tgz}
     name: core-js
@@ -4396,7 +4422,6 @@ packages:
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
       gopd: registry.npmmirror.com/gopd/1.0.1
       has-property-descriptors: registry.npmmirror.com/has-property-descriptors/1.0.1
-    dev: true
 
   registry.npmmirror.com/define-lazy-prop/2.0.0:
     resolution: {integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/define-lazy-prop/-/define-lazy-prop-2.0.0.tgz}
@@ -5065,7 +5090,6 @@ packages:
       has-proto: registry.npmmirror.com/has-proto/1.0.1
       has-symbols: registry.npmmirror.com/has-symbols/1.0.3
       hasown: registry.npmmirror.com/hasown/2.0.0
-    dev: true
 
   registry.npmmirror.com/get-stream/4.1.0:
     resolution: {integrity: sha512-GMat4EJ5161kIy2HevLlr4luNjBgvmj413KaQA7jt4V8B4RDsfpHk7WQ9GVqfYyyx8OS/L66Kox+rJRNklLK7w==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/get-stream/-/get-stream-4.1.0.tgz}
@@ -5160,7 +5184,6 @@ packages:
     version: 1.0.1
     dependencies:
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
-    dev: true
 
   registry.npmmirror.com/graceful-fs/4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz}
@@ -5203,21 +5226,18 @@ packages:
     version: 1.0.1
     dependencies:
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
-    dev: true
 
   registry.npmmirror.com/has-proto/1.0.1:
     resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/has-proto/-/has-proto-1.0.1.tgz}
     name: has-proto
     version: 1.0.1
     engines: {node: '>= 0.4'}
-    dev: true
 
   registry.npmmirror.com/has-symbols/1.0.3:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/has-symbols/-/has-symbols-1.0.3.tgz}
     name: has-symbols
     version: 1.0.3
     engines: {node: '>= 0.4'}
-    dev: true
 
   registry.npmmirror.com/hash-sum/1.0.2:
     resolution: {integrity: sha512-fUs4B4L+mlt8/XAtSOGMUO1TXmAelItBPtJG7CyHJfYTdDjwisntGO2JQz7oUsatOY9o68+57eziUVNw/mRHmA==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/hash-sum/-/hash-sum-1.0.2.tgz}
@@ -6517,7 +6537,6 @@ packages:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/object-inspect/-/object-inspect-1.13.1.tgz}
     name: object-inspect
     version: 1.13.1
-    dev: true
 
   registry.npmmirror.com/object-keys/1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/object-keys/-/object-keys-1.1.1.tgz}
@@ -7487,6 +7506,15 @@ packages:
       side-channel: registry.npmmirror.com/side-channel/1.0.4
     dev: true
 
+  registry.npmmirror.com/qs/6.11.2:
+    resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/qs/-/qs-6.11.2.tgz}
+    name: qs
+    version: 6.11.2
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: registry.npmmirror.com/side-channel/1.0.4
+    dev: false
+
   registry.npmmirror.com/queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/queue-microtask/-/queue-microtask-1.2.3.tgz}
     name: queue-microtask
@@ -7602,7 +7630,6 @@ packages:
     resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz}
     name: regenerator-runtime
     version: 0.14.1
-    dev: true
 
   registry.npmmirror.com/regenerator-transform/0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/regenerator-transform/-/regenerator-transform-0.15.2.tgz}
@@ -7937,7 +7964,6 @@ packages:
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
       gopd: registry.npmmirror.com/gopd/1.0.1
       has-property-descriptors: registry.npmmirror.com/has-property-descriptors/1.0.1
-    dev: true
 
   registry.npmmirror.com/setprototypeof/1.1.0:
     resolution: {integrity: sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/setprototypeof/-/setprototypeof-1.1.0.tgz}
@@ -8006,7 +8032,6 @@ packages:
       call-bind: registry.npmmirror.com/call-bind/1.0.5
       get-intrinsic: registry.npmmirror.com/get-intrinsic/1.2.2
       object-inspect: registry.npmmirror.com/object-inspect/1.13.1
-    dev: true
 
   registry.npmmirror.com/signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==, registry: https://packages.aliyun.com/5fbc7ec322a8c7ff39351cc5/npm/npm-registry/, tarball: https://registry.npmmirror.com/signal-exit/-/signal-exit-3.0.7.tgz}

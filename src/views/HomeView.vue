@@ -56,16 +56,18 @@
   </div>
 </template>
 <script>
-import { useRouter } from "vue-router"
-import { reactive, ref, onActivated, nextTick } from "vue"
+import { useRouter, useRoute } from "vue-router"
+import { reactive, ref, onActivated, onBeforeMount } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import dayjs from "dayjs"
 import { debounce } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
+
 export default {
   name: 'HomeView',
   setup() {
     const router = useRouter()
+    const route = useRoute()
     const gistParams = reactive({ page: 1, size: 10, loading: false, hasMore: true, total: 0, name: '' })
     const gistList = ref([])
 

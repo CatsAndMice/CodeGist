@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import "./style/normalize.css"
 import "./style/global.css"
+import "@arco-design/web-vue/es/notification/style/index.css"
 import CodeEdit from "@/components/CodeEdit.vue"
 import CodeBlock from "@/components/CodeBlock.vue"
 import dayjs from "dayjs"
