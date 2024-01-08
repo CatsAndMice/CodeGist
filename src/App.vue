@@ -14,25 +14,25 @@
 
           <div class="ml-8">
             <a-dropdown position="tr">
-              <a-avatar class="cursor-pointer" :image-url="user.avatar">未登陆</a-avatar>
+              <a-avatar class="cursor-pointer" :image-url="user.avatar">{{ isEmpty(user) ? '未登录' : '' }}</a-avatar>
               <template #content>
                 <a-doption @click="onClickMyGist">
                   <template #icon>
                     <icon-code />
                   </template>
                   我的 Gist</a-doption>
-                <!-- utools不提供登陆快捷入口 -->
+                <!-- utools不提供登录快捷入口 -->
                 <a-doption v-if="isEmpty(user)" @click="onLogin">
                   <template #icon>
                     <icon-import />
                   </template>
-                  立即登陆
+                  立即登录
                 </a-doption>
                 <a-doption v-else @click="onExit">
                   <template #icon>
                     <icon-export />
                   </template>
-                  退出登陆
+                  退出登录
                 </a-doption>
               </template>
             </a-dropdown>
@@ -106,8 +106,8 @@ export default {
       user.value = {}
     }
 
-
-    onBeforeMount(() => {
+    onMounted(async () => {
+      //优先使用utools帐号登录
       if (hasIn(window, 'utools')) {
         const utoolsUser = utools.getUser()
         if (utoolsUser) {
@@ -115,21 +115,19 @@ export default {
           return
         }
       }
-    })
 
-    onMounted(async () => {
       const giteeUser = await giteeLogin.getUser()
       if (giteeUser) {
         user.value = {
           avatar: giteeUser.avatar_url,
           nickname: giteeUser.name
         }
-
         return
       }
+
       //处理跳转链接暂无code值
       setTimeout(async () => {
-        //链接存在code并且没有登陆过
+        //链接存在code并且没有登录过
         if (route.query.code && isEmpty(giteeUser)) {
           const codeLoginUser = await giteeLogin.getToken(route.query.code)
           if (codeLoginUser) {
