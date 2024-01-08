@@ -21,19 +21,21 @@
                     <icon-code />
                   </template>
                   我的 Gist</a-doption>
-                <!-- utools不提供登录快捷入口 -->
-                <a-doption v-if="isEmpty(user)" @click="onLogin">
-                  <template #icon>
-                    <icon-import />
-                  </template>
-                  立即登录
-                </a-doption>
-                <a-doption v-else @click="onExit">
-                  <template #icon>
-                    <icon-export />
-                  </template>
-                  退出登录
-                </a-doption>
+                <!-- utools环境不提供Gitee授权登陆 -->
+                <template v-if="!isUtools">
+                  <a-doption v-if="isEmpty(user)" @click="onLogin">
+                    <template #icon>
+                      <icon-import />
+                    </template>
+                    立即登录
+                  </a-doption>
+                  <a-doption v-else @click="onExit">
+                    <template #icon>
+                      <icon-export />
+                    </template>
+                    退出登录
+                  </a-doption>
+                </template>
               </template>
             </a-dropdown>
           </div>
@@ -76,12 +78,13 @@
 <script>
 import { useRouter, useRoute } from 'vue-router'
 import { eq, hasIn, isEmpty } from "lodash-es"
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref, shallowRef, unref } from 'vue'
 import giteeLogin from "@/api/usr/giteeLogin"
 
 export default {
   setup() {
     const pageName = 'create'
+    const isUtools = shallowRef(false)
     const router = useRouter()
     const route = useRoute()
     const user = ref({})
@@ -96,6 +99,7 @@ export default {
     }
 
     const onLogin = () => {
+      console.log(121);
       //重新登陆前，先把已缓存的数据清空
       giteeLogin.onExit()
       giteeLogin.onLogin()
@@ -107,13 +111,14 @@ export default {
     }
 
     onMounted(async () => {
-      //优先使用utools帐号登录
-      if (hasIn(window, 'utools')) {
+      isUtools.value = hasIn(window, 'utools')
+      //utools环境不支持跳转其他页面
+      if (unref(isUtools)) {
         const utoolsUser = utools.getUser()
         if (utoolsUser) {
           user.value = utoolsUser
-          return
         }
+        return
       }
 
       const giteeUser = await giteeLogin.getUser()
@@ -149,7 +154,8 @@ export default {
       onLogin,
       onClickMyGist,
       isEmpty,
-      onExit
+      onExit,
+      isUtools
     }
   },
 }
