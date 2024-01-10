@@ -1,7 +1,8 @@
-import { createRouter,createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CreateGist from "../views/CreateGist.vue"
 import GistDetail from "../views/GistDetail.vue"
+import { eq } from "lodash-es"
 const routes = [
   {
     path: '/',
@@ -22,7 +23,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: eq(process.env.NODE_ENV, 'development') ? createWebHashHistory() : createWebHistory(),
   routes
 })
 

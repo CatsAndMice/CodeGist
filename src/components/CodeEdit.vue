@@ -1,6 +1,14 @@
 <template>
     <div class="code-container rounded-sm">
-        <div class="code-select rounded-t-sm flex justify-end items-center pr-1">
+        <div class="code-select rounded-t-sm flex justify-between items-center px-2">
+            <a-select :model-value="label" @update:modelValue="updateModelValue" :options="options" :unique-value="true"
+                :max-tag-count="2" style="display: inline-flex; max-width: 300px" placeholder="选择标签" allow-clear
+                :input-value="inputValue" multiple allow-create @update:input-value="onInput">
+                <template #arrow-icon></template>
+                <template #label="{ data }">
+                    <span>#{{ data?.label }}</span>
+                </template>
+            </a-select>
             <a-dropdown-button @select="onSelect">
                 {{ lang || '纯文本' }}
                 <template #icon>
@@ -20,7 +28,7 @@
 <script>
 import { templateRef } from "@vueuse/core"
 import { onMounted, ref, toRefs, unref } from 'vue'
-import { clone, } from "lodash-es"
+import { clone, trim } from "lodash-es"
 import CodeMirror from 'codemirror/lib/codemirror'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/sql/sql'
@@ -34,6 +42,7 @@ import 'codemirror/mode/yaml/yaml'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/php/php'
+
 //shell、yaml、dockerfile、dart、python、rust、markdown、java,c,cpp、htmlmixed、css、javascript、sql
 const clikeObject = {
     'java': 'text/x-java',
@@ -51,19 +60,28 @@ export default {
             type: String,
             default: ''
         },
-
+        tags: {
+            type: Array,
+            default: () => ([])
+        },
+        options: {
+            type: Array,
+            default: () => ([])
+        },
         language: {
             type: String,
             default: ''
         },
     },
-    emits: ['update:modelValue', 'update:language'],
+    emits: ['update:modelValue', 'update:language', 'update:tags'],
     setup(props, { emit }) {
         const { modelValue, language } = toRefs(props)
         let codeMirror = null
         const langs = ref([])
         const lang = ref(unref(language))
         const codeEl = templateRef('codeEl')
+        const inputValue = ref('')
+        const label = ref([])
 
         const onSelect = (value) => {
             if (unref(lang) === value) return
@@ -100,7 +118,21 @@ export default {
         }
 
 
+        const onInput = (value) => {
+            const content = trim(value)
+            //不多于10个字符
+            if (content.length > 15) return
+            inputValue.value = value
+        }
+
+        const updateModelValue = (values) => {
+            label.value = values
+            emit('update:tags', values)
+        }
+
         onMounted(() => {
+
+
             langs.value = getModes(CodeMirror.modes)
             codeMirror = CodeMirror(unref(codeEl), {
                 value: unref(modelValue),
@@ -114,9 +146,13 @@ export default {
             })
         })
         return {
+            label,
             langs,
             lang,
             onSelect,
+            onInput,
+            inputValue,
+            updateModelValue
         }
     },
 }
