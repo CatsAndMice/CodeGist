@@ -8,7 +8,7 @@ import CodeEdit from "@/components/CodeEdit.vue"
 import CodeBlock from "@/components/CodeBlock.vue"
 import dayjs from "dayjs"
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { IconDown, IconPlus, IconDelete, IconLeft, IconRight, IconCode, IconImport, IconEdit, IconSend, IconExport } from '@arco-design/web-vue/es/icon'
+import { IconDown, IconPlus,IconTags,IconApps,IconTag, IconDelete, IconLeft, IconRight, IconCode, IconImport, IconEdit, IconSend, IconExport } from '@arco-design/web-vue/es/icon'
 dayjs.extend(relativeTime)
 createApp(App)
     .use(router)
@@ -24,4 +24,7 @@ createApp(App)
     .use(IconEdit)
     .use(IconLeft)
     .use(IconRight)
+    .use(IconTags)
+    .use(IconTag)
+    .use(IconApps)
     .mount('#app')

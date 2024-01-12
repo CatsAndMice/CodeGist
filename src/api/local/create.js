@@ -5,8 +5,10 @@ import { createTag } from "./createTag"
 export const create = async (gistParams) => {
     const [err] = await to(db.gistTable.add(gistParams))
     //创建标签
-    createTag(gistParams.tags)
-    if (isEmpty(err)) return true
+    if (isEmpty(err)) {
+        createTag(gistParams.tags)
+        return true
+    }
     console.warn(err)
     return false
 }

@@ -6,7 +6,7 @@
                 :input-value="inputValue" multiple allow-create @update:input-value="onInput">
                 <template #arrow-icon></template>
                 <template #label="{ data }">
-                    <span>#{{ data?.label }}</span>
+                    <span><icon-tag class="mr-1"/>{{ data?.label }}</span>
                 </template>
             </a-select>
             <a-dropdown-button @select="onSelect">
@@ -72,16 +72,20 @@ export default {
             type: String,
             default: ''
         },
+        defaultTags: {
+            type: Array,
+            default: () => ([])
+        }
     },
     emits: ['update:modelValue', 'update:language', 'update:tags'],
     setup(props, { emit }) {
-        const { modelValue, language } = toRefs(props)
+        const { modelValue, language, defaultTags } = toRefs(props)
         let codeMirror = null
         const langs = ref([])
         const lang = ref(unref(language))
         const codeEl = templateRef('codeEl')
         const inputValue = ref('')
-        const label = ref([])
+        const label = ref(unref(defaultTags) || [])
 
         const onSelect = (value) => {
             if (unref(lang) === value) return

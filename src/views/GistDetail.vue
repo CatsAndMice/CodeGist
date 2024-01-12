@@ -33,7 +33,7 @@
     <div v-if="!isEmpty(detail)" class="m-auto all-gist mt-5 p-4">
         <p class="m-0 text-base text-nowrap truncate mb-2 font-medium">{{ detail.description || '无描述' }}</p>
         <div class="code-hover border-solid border-transparent border rounded-md overflow-hidden cursor-pointer">
-            <code-block :code="detail.code" :language="detail.language" />
+            <code-block :tags="detail.tags" :code="detail.code" :language="detail.language" />
         </div>
     </div>
 </template>
@@ -74,6 +74,7 @@ export default {
             const gist = await getGistDetail(route.query.gistId)
             console.log(gist);
             if (isEmpty(gist)) return
+            console.log(gist);
             detail.value = gist
         })
 

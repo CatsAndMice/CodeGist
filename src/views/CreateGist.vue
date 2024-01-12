@@ -2,7 +2,8 @@
     <div class="create-gist mt-4 p-4" v-if="isEdit">
         <a-input v-model="description" placeholder="添加描述" allow-clear :max-length="200" class="mb-4 mt-6" size="large" />
 
-        <code-edit v-model="code" v-model:language="language" v-model:tags="tags" :options="options" />
+        <code-edit v-model="code" v-model:language="language" v-model:tags="tags" :default-tags="defaultTags"
+            :options="options" />
 
         <div class="flex justify-end mt-4">
             <a-space size="medium">
@@ -42,6 +43,10 @@ export default {
         const route = useRoute()
         const mode = route.query.mode || CREATE
         const tags = shallowRef([])
+
+        //默认标签
+        const defaultTags = shallowRef([])
+        //标签列表
         const options = shallowRef([])
 
         const description = shallowRef('')
@@ -84,7 +89,6 @@ export default {
         }
 
         const onCreate = async () => {
-
             const codeParams = {
                 description: unref(description),
                 gistId: uuidv4(),
@@ -122,7 +126,8 @@ export default {
                 gistId: route.query.gistId,
                 code: unref(code),
                 language: unref(language),
-                editTime: Date.now()
+                editTime: Date.now(),
+                tags: unref(tags)
             }
             if (isEmpty(trim(codeParams.code))) {
                 Notification.error({ title: '修改 Gist 失败', content: '内容为空', closable: true, duration: 1000 })
@@ -175,6 +180,9 @@ export default {
             language.value = gist.language
             code.value = gist.code
             description.value = gist.description
+            defaultTags.value = gist.tags || []
+
+            console.log(gist.tags);
             isEdit.value = true
         })
 
@@ -198,6 +206,7 @@ export default {
             language,
             onCreate,
             loading,
+            defaultTags,
         }
     },
 }

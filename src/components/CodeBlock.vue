@@ -1,8 +1,16 @@
 <template>
     <n-config-provider :hljs="hljs">
         <div class="code-container rounded-sm" :style="customStyle">
-            <div class="code-select rounded-t-sm flex justify-end items-center pr-1">
-                <span class="mr-1"> {{ language || '纯文本' }}</span>
+            <div class="code-select rounded-t-sm flex justify-between items-center pr-2">
+                <div class="mr-5 grow overflow-x-auto" style="display: inline-flex;">
+                    <a-tag v-for="tag in tags" :key="tag" :checked="true" color="arcoblue" class="ml-2 shrink-0">
+                        <template #icon>
+                            <icon-tag />
+                        </template>
+                        {{ tag }}
+                    </a-tag>
+                </div>
+                <span class="mr-1 shrink-0"> {{ language || '纯文本' }}</span>
             </div>
             <a-divider margin="0" />
             <div :class="isText ? 'code  rounded-sm' : 'code  rounded-sm px-3'" style="overflow-x: auto;">
@@ -77,6 +85,10 @@ export default {
             type: String,
             default: ''
         },
+        tags: {
+            type: Array,
+            default: () => ([])
+        }
     },
     setup(props) {
         const { language } = toRefs(props)
