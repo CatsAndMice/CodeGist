@@ -1,13 +1,16 @@
 import { db } from "@/db/db"
-import { uniq } from "lodash-es"
+import { uniq, isEmpty, flattenDeep } from "lodash-es"
 
+//获取代码片段的所有标签
 export const getTags = async () => {
-    const allTag = await db.tags.toArray()
-    const tags = allTag.map(t => t.tag)
-    tags.sort((a, b) => {
+    const gist = await db.gistTable.toArray()
+    console.log(gist);
+    let gistTags = gist.map(g => g.tags).filter(t => !isEmpty(t))
+    gistTags = flattenDeep(gistTags)
+    gistTags.sort((a, b) => {
         const charA = a.charCodeAt(0);
         const charB = b.charCodeAt(0);
         return charA - charB;
     })
-    return uniq(tags)
+    return uniq(gistTags)
 }

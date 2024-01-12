@@ -76,6 +76,7 @@ export default {
             const token = await response.json()
             db.setLocalDb('token', token)
             if (token.access_token) {
+                console.log(token.access_token);
                 return await this.getUser(token.access_token)
             }
         }

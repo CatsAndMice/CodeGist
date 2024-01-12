@@ -46,7 +46,7 @@
 
   <a-divider margin="0" />
   <!-- 内容 -->
-  <div class="pt-0">
+  <div class="pt-0 ">
     <router-view v-slot="{ Component }">
       <!-- 缓存meta.isCache为true的组件 -->
       <keep-alive>
@@ -99,7 +99,6 @@ export default {
     }
 
     const onLogin = () => {
-      console.log(121);
       //重新登陆前，先把已缓存的数据清空
       giteeLogin.onExit()
       giteeLogin.onLogin()
@@ -132,6 +131,7 @@ export default {
 
       //处理跳转链接暂无code值
       setTimeout(async () => {
+        console.log(route.query.code,isEmpty(giteeUser));
         //链接存在code并且没有登录过
         if (route.query.code && isEmpty(giteeUser)) {
           const codeLoginUser = await giteeLogin.getToken(route.query.code)
@@ -161,6 +161,9 @@ export default {
 }
 </script>
 <style lang="less">
+html{
+  background-color: #fff;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

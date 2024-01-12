@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
     <a-affix @change="isAffix = $event">
-      <a-menu class="py-2" @menu-item-click="onMenuItemClick" :default-selected-keys="[ALL]"
-        :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }">
+      <a-menu class="py-2" v-model:selected-keys="selectedKeys" @menu-item-click="onMenuItemClick"
+        :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }" :auto-open="true">
         <a-menu-item :key="ALL">
           <template #icon>
             <icon-apps size="18px" />
@@ -21,19 +21,14 @@
         </a-sub-menu>
       </a-menu>
     </a-affix>
-    <div class="m-auto grow mt-9 px-4">
-      <div class="flex justify-between pb-2">
-        <a-button type="text" class="mr-4" style="--primary-6:0,0,0;">
-          <div class="flex items-center">
-            <span class="mr-1">全部</span> <a-badge :count="gistParams.total"
-              :dotStyle="{ background: '#E5E6EB', color: '#86909C', boxShadow: 'none' }" />
-          </div>
-        </a-button>
-        <a-input-search v-model="gistParams.name" @clear="onInput" :style="{ 'max-width': '300px' }" @input="onInput"
-          :max-length="20" placeholder="请输入 Gist 描述" allow-clear />
-      </div>
+    <div class="grow ml-3 px-3 bg-white">
+      <a-affix>
+        <div class="flex justify-end py-2 bg-white">
+          <a-input-search v-model="gistParams.name" @clear="onInput" :style="{ 'max-width': '300px' }" @input="onInput"
+            :max-length="20" placeholder="请输入 Gist 描述" allow-clear />
+        </div>
+      </a-affix>
 
-      <a-divider margin="0" />
 
       <template v-if="!gistParams.loading">
         <div v-for="l in gistList" :key="l.gistId" class="pb-4 select-none" @click="onClickGistListItem(l.gistId)">
@@ -81,15 +76,15 @@
 </template>
 <script>
 import { useRouter } from "vue-router"
-import { reactive, ref, onActivated, shallowRef } from "vue"
+import { reactive, ref, onActivated, shallowRef, unref } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import { getTags } from "@/api/local/getTags"
 import dayjs from "dayjs"
-import { debounce, eq } from "lodash-es"
+import { debounce, eq, isEmpty } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
 
 const ALL = 'ALL'
-
+let unrefSelectedKeys = ALL
 export default {
   name: 'HomeView',
   setup() {
@@ -98,7 +93,7 @@ export default {
     const gistList = ref([])
     const tags = shallowRef()
     const isAffix = shallowRef(false)
-
+    const selectedKeys = shallowRef([ALL])
     const onClickGistListItem = (gistId) => {
       pageScroll.setTop(document.documentElement.scrollTop)
       router.push({ name: 'gistDetail', query: { gistId } })
@@ -106,6 +101,20 @@ export default {
 
     const onClickCreate = () => {
       router.push({ name: 'create' })
+    }
+
+
+    const onMenuItemClick = (key) => {
+      unrefSelectedKeys = key
+      gistParams.name = ''
+      gistParams.page = 1
+      if (eq(key, ALL)) {
+        gistParams.tag = ''
+      } else {
+        gistParams.tag = key
+      }
+      pageScroll.setTop()
+      getList()
     }
 
     const getList = async () => {
@@ -116,11 +125,16 @@ export default {
         name: gistParams.name,
         tag: gistParams.tag
       })
-      console.log(list);
       if (list) {
         gistParams.hasMore = list.hasMore
         gistParams.total = list.total
         gistList.value = list.data
+
+        if (isEmpty(list.data) && !eq(unrefSelectedKeys, ALL)) {
+          selectedKeys.value = [ALL]
+          unrefSelectedKeys = ALL
+          onMenuItemClick(ALL)
+        }
       }
       gistParams.loading = false
       //页面滚动到原处
@@ -141,21 +155,10 @@ export default {
       getList()
     }
 
-    const onMenuItemClick = (key) => {
-      gistParams.page = 1
-      if (eq(key, ALL)) {
-        gistParams.tag = ''
-      } else {
-        gistParams.tag = key
-      }
-      getList()
-    }
-
-
     // 首次持载也会被触发
     onActivated(async () => {
-      tags.value = await getTags()
       getList()
+      tags.value = await getTags()
     })
 
     return {
@@ -170,7 +173,8 @@ export default {
       onNextPage,
       onPrevPage,
       onClickCreate,
-      onClickGistListItem
+      onClickGistListItem,
+      selectedKeys
     }
   }
 }

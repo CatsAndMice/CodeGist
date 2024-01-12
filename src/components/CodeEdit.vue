@@ -6,7 +6,7 @@
                 :input-value="inputValue" multiple allow-create @update:input-value="onInput">
                 <template #arrow-icon></template>
                 <template #label="{ data }">
-                    <span><icon-tag class="mr-1"/>{{ data?.label }}</span>
+                    <span><icon-tag class="mr-1" />{{ data?.label }}</span>
                 </template>
             </a-select>
             <a-dropdown-button @select="onSelect">
@@ -23,7 +23,6 @@
         <a-divider margin="0" />
         <div class="code  rounded-sm" ref="codeEl"></div>
     </div>
-    <!-- <code-block code="const a = 1;" language="javascript" /> -->
 </template>
 <script>
 import { templateRef } from "@vueuse/core"
@@ -134,6 +133,7 @@ export default {
             emit('update:tags', values)
         }
 
+
         onMounted(() => {
 
 
@@ -171,6 +171,12 @@ export default {
     :deep {
         .arco-dropdown-open .arco-icon-down {
             transform: rotate(180deg);
+        }
+
+        .arco-select-view-tag {
+            color: rgb(22, 93, 255);
+            background-color: rgb(232, 243, 255);
+            border-color: transparent;
         }
     }
 }
