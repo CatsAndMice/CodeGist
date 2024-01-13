@@ -62,7 +62,7 @@
     bottom: '40px'
   }">
 
-    <div class="flex justify-center items-center cursor-pointer"
+    <div class="flex justify-center items-center cursor-pointer bg-white"
       style="box-shadow: 2px 2px 10px 0 rgba(0,0,0,.15);height: 42px;width: 42px;border-radius: 12px;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor">
         <path
@@ -78,7 +78,7 @@
 <script>
 import { useRouter, useRoute } from 'vue-router'
 import { eq, hasIn, isEmpty } from "lodash-es"
-import { onBeforeMount, onMounted, ref, shallowRef, unref } from 'vue'
+import { nextTick, onMounted, ref, shallowRef, unref } from 'vue'
 import giteeLogin from "@/api/usr/giteeLogin"
 
 export default {
@@ -117,6 +117,12 @@ export default {
         if (utoolsUser) {
           user.value = utoolsUser
         }
+
+        console.log(1212);
+        //处理utools环境首次进入空白
+        router.push({ name: 'homeView' })
+
+
         return
       }
 
@@ -131,7 +137,7 @@ export default {
 
       //处理跳转链接暂无code值
       setTimeout(async () => {
-        console.log(route.query.code,isEmpty(giteeUser));
+        console.log(route.query.code, isEmpty(giteeUser));
         //链接存在code并且没有登录过
         if (route.query.code && isEmpty(giteeUser)) {
           const codeLoginUser = await giteeLogin.getToken(route.query.code)
@@ -161,9 +167,7 @@ export default {
 }
 </script>
 <style lang="less">
-html{
-  background-color: #fff;
-}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

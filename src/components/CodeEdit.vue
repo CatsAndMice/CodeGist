@@ -1,9 +1,9 @@
 <template>
-    <div class="code-container rounded-sm">
+    <div class="code-container rounded-sm" tabindex="0">
         <div class="code-select rounded-t-sm flex justify-between items-center px-2">
             <a-select :model-value="label" @update:modelValue="updateModelValue" :options="options" :unique-value="true"
-                :max-tag-count="2" style="display: inline-flex; max-width: 300px" placeholder="选择标签" allow-clear
-                :input-value="inputValue" multiple allow-create @update:input-value="onInput">
+                :max-tag-count="2" style="display: inline-flex; max-width: 300px;overflow-x: auto;" placeholder="选择标签"
+                allow-clear :input-value="inputValue" multiple allow-create @update:input-value="onInput">
                 <template #arrow-icon></template>
                 <template #label="{ data }">
                     <span><icon-tag class="mr-1" />{{ data?.label }}</span>
@@ -164,6 +164,21 @@ export default {
 <style lang="less" scoped>
 @import "codemirror/lib/codemirror.css";
 
+.code-container {
+    :deep {
+        .arco-select-view-input {
+            opacity: 0;
+        }
+        &:focus-within,&:hover {
+            .arco-select-view-input{
+                opacity: 1;
+            }
+        }
+    }
+
+
+}
+
 .code-select {
     height: 40px;
     background-color: #f2f3f5;
@@ -177,6 +192,14 @@ export default {
             color: rgb(22, 93, 255);
             background-color: rgb(232, 243, 255);
             border-color: transparent;
+        }
+
+        .arco-select-view-inner {
+            display: inline-flex;
+
+            .arco-tag {
+                flex-shrink: 0;
+            }
         }
     }
 }

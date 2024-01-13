@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex" style="background-color: #fafafa;">
     <a-affix @change="isAffix = $event">
       <a-menu class="py-2" v-model:selected-keys="selectedKeys" @menu-item-click="onMenuItemClick"
         :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }" :auto-open="true">
