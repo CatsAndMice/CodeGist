@@ -72,10 +72,6 @@
           </a-button-group>
         </div>
       </div>
-
-
-
-
     </div>
   </div>
 </template>
@@ -135,7 +131,7 @@ export default {
         gistParams.total = list.total
         gistList.value = list.data
 
-        if (isEmpty(list.data) && !eq(unrefSelectedKeys, ALL)) {
+        if (isEmpty(list.data) && !eq(unrefSelectedKeys, ALL)&&isEmpty(gistParams.name)) {
           selectedKeys.value = [ALL]
           unrefSelectedKeys = ALL
           onMenuItemClick(ALL)
