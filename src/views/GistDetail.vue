@@ -75,9 +75,7 @@ export default {
 
         onBeforeMount(async () => {
             const gist = await getGistDetail(route.query.gistId)
-            console.log(gist);
             if (isEmpty(gist)) return
-            console.log(gist);
             detail.value = gist
         })
 

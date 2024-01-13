@@ -117,12 +117,8 @@ export default {
         if (utoolsUser) {
           user.value = utoolsUser
         }
-
-        console.log(1212);
         //处理utools环境首次进入空白
         router.push({ name: 'homeView' })
-
-
         return
       }
 
@@ -137,7 +133,6 @@ export default {
 
       //处理跳转链接暂无code值
       setTimeout(async () => {
-        console.log(route.query.code, isEmpty(giteeUser));
         //链接存在code并且没有登录过
         if (route.query.code && isEmpty(giteeUser)) {
           const codeLoginUser = await giteeLogin.getToken(route.query.code)

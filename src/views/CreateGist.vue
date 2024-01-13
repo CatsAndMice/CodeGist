@@ -181,8 +181,6 @@ export default {
             code.value = gist.code
             description.value = gist.description
             defaultTags.value = gist.tags || []
-
-            console.log(gist.tags);
             isEdit.value = true
         })
 
