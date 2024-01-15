@@ -42,8 +42,8 @@
               </div>
             </div>
             <div class="code-hover border-solid border-transparent border rounded-md overflow-hidden cursor-pointer">
-              <code-block :custom-style="{ maxHeight: '200px', overflowY: 'hidden' }" :code="l.code" :tags="l.tags"
-                :language="l.language" />
+              <code-block :custom-style="{ maxHeight: '200px', overflowY: 'hidden' }" :code="l.code"
+                :tags="l.tags" :language="l.language" />
             </div>
           </div>
         </template>
@@ -131,7 +131,7 @@ export default {
         gistParams.total = list.total
         gistList.value = list.data
 
-        if (isEmpty(list.data) && !eq(unrefSelectedKeys, ALL)&&isEmpty(gistParams.name)) {
+        if (isEmpty(list.data) && !eq(unrefSelectedKeys, ALL) && isEmpty(gistParams.name)) {
           selectedKeys.value = [ALL]
           unrefSelectedKeys = ALL
           onMenuItemClick(ALL)
@@ -182,8 +182,18 @@ export default {
 </script>
 <style lang="less" scoped>
 .code-hover {
-  &:hover {
-    border-color: rgb(22, 93, 255);
+  :deep {
+    .code-menu {
+      // display: none;
+    }
+
+    &:hover {
+      border-color: rgb(22, 93, 255);
+
+      .code-menu {
+        display: inline-block;
+      }
+    }
   }
 }
 </style>

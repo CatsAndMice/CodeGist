@@ -9,16 +9,20 @@
                     <span><icon-tag class="mr-1" />{{ data?.label }}</span>
                 </template>
             </a-select>
-            <a-dropdown-button @select="onSelect">
-                {{ lang || '纯文本' }}
-                <template #icon>
-                    <icon-down />
-                </template>
-                <template #content>
-                    <a-doption>纯文本</a-doption>
-                    <a-doption v-for="l in langs" :key="l" :value="l">{{ l }}</a-doption>
-                </template>
-            </a-dropdown-button>
+            <a-space class="flex items-center">
+                <a-dropdown-button @select="onSelect">
+                    {{ lang || '纯文本' }}
+                    <template #icon>
+                        <icon-down />
+                    </template>
+                    <template #content>
+                        <a-doption>纯文本</a-doption>
+                        <a-doption v-for="l in langs" :key="l" :value="l">{{ l }}</a-doption>
+                    </template>
+                </a-dropdown-button>
+
+                <code-menu :code="modelValue" />
+            </a-space>
         </div>
         <a-divider margin="0" />
         <div class="code  rounded-sm" ref="codeEl"></div>
@@ -28,6 +32,7 @@
 import { templateRef } from "@vueuse/core"
 import { onMounted, ref, toRefs, unref } from 'vue'
 import { clone, trim } from "lodash-es"
+import CodeMenu from './CodeMenu.vue'
 import CodeMirror from 'codemirror/lib/codemirror'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/sql/sql'
@@ -42,6 +47,7 @@ import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/php/php'
 
+
 //shell、yaml、dockerfile、dart、python、rust、markdown、java,c,cpp、htmlmixed、css、javascript、sql
 const clikeObject = {
     'java': 'text/x-java',
@@ -53,6 +59,9 @@ export default {
     name: "CodeEdit",
     install(Vue) {
         Vue.component(this.name, this)
+    },
+    components: {
+        CodeMenu
     },
     props: {
         modelValue: {
@@ -135,8 +144,6 @@ export default {
 
 
         onMounted(() => {
-
-
             langs.value = getModes(CodeMirror.modes)
             codeMirror = CodeMirror(unref(codeEl), {
                 value: unref(modelValue),
@@ -169,8 +176,10 @@ export default {
         .arco-select-view-input {
             opacity: 0;
         }
-        &:focus-within,&:hover {
-            .arco-select-view-input{
+
+        &:focus-within,
+        &:hover {
+            .arco-select-view-input {
                 opacity: 1;
             }
         }

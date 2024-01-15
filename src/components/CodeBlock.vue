@@ -10,7 +10,10 @@
                         {{ tag }}
                     </a-tag>
                 </div>
-                <span class="mr-1 shrink-0"> {{ language || '纯文本' }}</span>
+                <a-space class="flex items-center">
+                    <span class="shrink-0"> {{ language || '纯文本' }}</span>
+                    <code-menu :code="code" />
+                </a-space>
             </div>
             <a-divider margin="0" />
             <div :class="isText ? 'code  rounded-sm' : 'code  rounded-sm px-3'" style="overflow-x: auto;">
@@ -22,6 +25,7 @@
 <script>
 import { NCode, NConfigProvider } from "naive-ui"
 import { eq, hasIn, upperCase } from "lodash-es"
+import CodeMenu from "./CodeMenu.vue"
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import java from "highlight.js/lib/languages/java"
@@ -68,6 +72,7 @@ export default {
     },
     components: {
         NCode,
+        CodeMenu,
         NConfigProvider
     },
     props: {
