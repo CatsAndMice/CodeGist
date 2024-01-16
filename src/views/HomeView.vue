@@ -42,8 +42,10 @@
               </div>
             </div>
             <div class="code-hover border-solid border-transparent border rounded-md overflow-hidden cursor-pointer">
-              <code-block :custom-style="{ maxHeight: '200px', overflowY: 'hidden' }" :code="l.code"
-                :tags="l.tags" :language="l.language" />
+              <code-block :custom-style="{ maxHeight: '200px', overflowY: 'hidden' }" :code="l.code" :tags="l.tags"
+                :language="l.language">
+                <template #menu></template>
+              </code-block>
             </div>
           </div>
         </template>
@@ -83,11 +85,15 @@ import { getTags } from "@/api/local/getTags"
 import dayjs from "dayjs"
 import { debounce, eq, isEmpty } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
+import CodeMenu from "@/components/CodeMenu.vue"
 
 const ALL = 'ALL'
 let unrefSelectedKeys = ALL
 export default {
   name: 'HomeView',
+  components: {
+    CodeMenu
+  },
   setup() {
     const router = useRouter()
     const gistParams = reactive({ page: 1, size: 10, loading: false, hasMore: true, total: 0, name: '', tag: '' })

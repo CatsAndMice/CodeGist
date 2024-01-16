@@ -12,7 +12,9 @@
                 </div>
                 <a-space class="flex items-center">
                     <span class="shrink-0"> {{ language || '纯文本' }}</span>
-                    <code-menu :code="code" />
+                    <slot name="menu">
+                        <code-menu :code="code" />
+                    </slot>
                 </a-space>
             </div>
             <a-divider margin="0" />
