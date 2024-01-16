@@ -1,7 +1,7 @@
 <template>
     <n-config-provider :hljs="hljs">
-        <div class="code-container rounded-sm" :style="customStyle">
-            <div class="code-select rounded-t-sm flex justify-between items-center pr-2">
+        <div class="code-container rounded-sm overflow-hidden " :style="customStyle">
+            <div class="code-select rounded-sm flex justify-between items-center pr-2">
                 <div class="mr-5 grow overflow-x-auto" style="display: inline-flex;">
                     <a-tag v-for="tag in tags" :key="tag" :checked="true" color="arcoblue" class="ml-2 shrink-0">
                         <template #icon>

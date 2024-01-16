@@ -1,6 +1,6 @@
 <template>
-    <a-dropdown @click.stop position="br" :popup-container="'#' + codeMenuClass">
-        <a-button class="code-menu" :id="codeMenuClass">
+    <a-dropdown @click.stop position="br" :popup-container="popupContainer || 'body'">
+        <a-button class="code-menu">
             <template #icon>
                 <icon-more size="24px" />
             </template>
@@ -18,13 +18,17 @@
 <script>
 import { toRefs, unref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import { uniqueId } from "lodash-es"
+import { hasIn, uniqueId } from "lodash-es"
 export default {
     props: {
         code: {
             type: String,
             default: ''
         },
+        popupContainer: {
+            type: String,
+            default: ''
+        }
     },
     setup(props) {
         const { code } = toRefs(props)
@@ -33,6 +37,23 @@ export default {
             const type = "text/plain";
             const blob = new Blob([unref(code)], { type });
             const data = [new ClipboardItem({ [type]: blob })];
+            if (hasIn(window, 'utools')) {
+                try {
+                    utools.copyText(unref(code))
+                    Message.success({
+                        showIcon: true,
+                        closable: true,
+                        content: '复制成功'
+                    })
+                } catch (e) {
+                    Message.error({
+                        showIcon: true,
+                        closable: true,
+                        content: '复制失败'
+                    })
+                }
+                return
+            }
 
             navigator.clipboard.write(data).then(
                 () => {

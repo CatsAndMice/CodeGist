@@ -31,7 +31,8 @@
 
       <div style="width: calc(100vw - 290px);">
         <template v-if="!gistParams.loading">
-          <div v-for="l in gistList" :key="l.gistId" class="pb-4 select-none" @click="onClickGistListItem(l.gistId)">
+          <div v-for="(l, index) in gistList" :key="l.gistId" class="pb-4 select-none "
+            @click="onClickGistListItem(l.gistId)">
             <div class="flex py-2">
               <icon-code size="32px" style="flex-shrink: 0;" />
               <div class="pl-2 grow text-nowrap truncate">
@@ -41,10 +42,13 @@
                 <p class="m-0 text-xs truncate" style="color:rgb(101, 109, 118);width: 100%;">{{ l.description }}</p>
               </div>
             </div>
-            <div class="code-hover border-solid border-transparent border rounded-md overflow-hidden cursor-pointer">
+            <div :id="getDomId(index)"
+              class="code-hover relative border-solid border-transparent border rounded-sm cursor-pointer">
               <code-block :custom-style="{ maxHeight: '200px', overflowY: 'hidden' }" :code="l.code" :tags="l.tags"
                 :language="l.language">
-                <template #menu></template>
+                <template #menu>
+                  <code-menu :code="l.code" :popup-container="'#' + getDomId(index)" />
+                </template>
               </code-block>
             </div>
           </div>
@@ -79,7 +83,7 @@
 </template>
 <script>
 import { useRouter } from "vue-router"
-import { reactive, ref, onActivated, shallowRef, unref } from "vue"
+import { reactive, ref, onActivated, shallowRef } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import { getTags } from "@/api/local/getTags"
 import dayjs from "dayjs"
@@ -101,6 +105,7 @@ export default {
     const tags = shallowRef()
     const isAffix = shallowRef(false)
     const selectedKeys = shallowRef([ALL])
+
     const onClickGistListItem = (gistId) => {
       pageScroll.setTop(document.documentElement.scrollTop)
       router.push({ name: 'gistDetail', query: { gistId } })
@@ -162,6 +167,13 @@ export default {
       getList()
     }
 
+    const getDomId = () => {
+      const before = 'code'
+      return (id) => {
+        return before + '_' + id
+      }
+    }
+
     // 首次持载也会被触发
     onActivated(async () => {
       getList()
@@ -181,7 +193,8 @@ export default {
       onPrevPage,
       onClickCreate,
       onClickGistListItem,
-      selectedKeys
+      selectedKeys,
+      getDomId: getDomId()
     }
   }
 }
@@ -190,7 +203,7 @@ export default {
 .code-hover {
   :deep {
     .code-menu {
-      // display: none;
+      display: none;
     }
 
     &:hover {
