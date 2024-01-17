@@ -21,7 +21,14 @@
                     </template>
                 </a-dropdown-button>
 
-                <code-menu :code="modelValue" />
+                <code-menu :code="modelValue">
+                    <a-doption @click="onFormatCode">
+                        <template #icon>
+                            <icon-copy size="18px" />
+                        </template>
+                        代码化代码
+                    </a-doption>
+                </code-menu>
             </a-space>
         </div>
         <a-divider margin="0" />
@@ -34,6 +41,7 @@ import { onMounted, ref, toRefs, unref } from 'vue'
 import { clone, trim } from "lodash-es"
 import CodeMenu from './CodeMenu.vue'
 import CodeMirror from 'codemirror/lib/codemirror'
+import "codemirror"
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/sql/sql'
 import 'codemirror/mode/htmlmixed/htmlmixed'
@@ -46,7 +54,7 @@ import 'codemirror/mode/yaml/yaml'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/php/php'
-
+import '@/utils/formatCode'
 
 //shell、yaml、dockerfile、dart、python、rust、markdown、java,c,cpp、htmlmixed、css、javascript、sql
 const clikeObject = {
@@ -142,6 +150,11 @@ export default {
             emit('update:tags', values)
         }
 
+        const onFormatCode = () => {
+            let totalLines = codeMirror.lineCount();
+            codeMirror.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
+        }
+
 
         onMounted(() => {
             langs.value = getModes(CodeMirror.modes)
@@ -156,6 +169,7 @@ export default {
                 emit('update:modelValue', doc.getValue())
             })
         })
+
         return {
             label,
             langs,
@@ -163,7 +177,8 @@ export default {
             onSelect,
             onInput,
             inputValue,
-            updateModelValue
+            updateModelValue,
+            onFormatCode
         }
     },
 }
