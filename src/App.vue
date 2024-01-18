@@ -2,6 +2,9 @@
   <!-- 头部 -->
   <div style="background-color: #24292f;--color-text-1:#fff;">
     <a-page-header title="CodeGist" subtitle="即刻记录笔记、代码" :show-back="false">
+      <template #title>
+        <span class="title">CodeGist</span>
+      </template>
       <template #extra>
         <div class="flex items-center">
           <div v-show="!eq(route.name, pageName)" style="height: 30px;">
@@ -162,7 +165,6 @@ export default {
 }
 </script>
 <style lang="less">
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -175,5 +177,11 @@ export default {
   .arco-avatar-image {
     transform: none !important;
   }
+}
+
+.title {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(rgb(194, 173, 255), rgb(237, 255, 158));
 }
 </style>

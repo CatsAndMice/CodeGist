@@ -2,10 +2,8 @@
     <div class="create-header text-center">
         <h3 class="create-header--title px-3">Record now code snippets.</h3>
     </div>
-
     <div class="create-gist mt-2 px-4" v-if="isEdit">
         <a-input v-model="description" placeholder="添加描述" allow-clear :max-length="200" class="mb-4 " size="large" />
-
         <code-edit v-model="code" v-model:language="language" v-model:tags="tags" :default-tags="defaultTags"
             :options="options" />
 
