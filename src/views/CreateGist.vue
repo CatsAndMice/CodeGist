@@ -1,6 +1,10 @@
 <template>
-    <div class="create-gist mt-4 p-4" v-if="isEdit">
-        <a-input v-model="description" placeholder="添加描述" allow-clear :max-length="200" class="mb-4 mt-6" size="large" />
+    <div class="create-header text-center">
+        <h3 class="create-header--title px-3">Record now code snippets.</h3>
+    </div>
+
+    <div class="create-gist mt-2 px-4" v-if="isEdit">
+        <a-input v-model="description" placeholder="添加描述" allow-clear :max-length="200" class="mb-4 " size="large" />
 
         <code-edit v-model="code" v-model:language="language" v-model:tags="tags" :default-tags="defaultTags"
             :options="options" />
@@ -210,6 +214,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.create-header {
+    .create-header--title{
+        padding: 40px;
+        margin: 0;
+        font-size: 32px;
+        font-weight: 300;
+    }
+    margin-top: -1px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0) 60%, rgb(255, 255, 255)), linear-gradient(70deg, rgb(221, 244, 255) 32%, rgb(218, 251, 225));
+}
+
 .create-gist {
     max-width: 1000px;
     margin: auto;
