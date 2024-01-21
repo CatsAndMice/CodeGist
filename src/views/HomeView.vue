@@ -71,14 +71,13 @@
             <a-button type="text" class="p-0 inline" @click="onClickCreate">立即创建</a-button>
           </p>
         </div>
-        <!-- v-show="gistParams.total > gistParams.size" -->
         <div class="flex justify-center pb-4" style="margin-top: 4px;" v-show="gistParams.total > gistParams.size">
           <a-button-group>
             <a-button @click="onPrevPage" :disabled="gistParams.page === 1">
               <icon-left />
               上一页
             </a-button>
-            <a-button @click="onNextPage" :disabled="(gistParams.size * gistParams.page) > gistParams.total">
+            <a-button @click="onNextPage" :disabled="gte(gistParams.size * gistParams.page, gistParams.total)">
               下一页 <icon-right /></a-button>
           </a-button-group>
         </div>
@@ -92,7 +91,7 @@ import { reactive, ref, onActivated, shallowRef } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import { getTags } from "@/api/local/getTags"
 import dayjs from "dayjs"
-import { debounce, eq, isEmpty } from "lodash-es"
+import { debounce, eq, isEmpty, gte } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
 import CodeMenu from "@/components/CodeMenu.vue"
 
@@ -189,6 +188,7 @@ export default {
 
     return {
       ALL,
+      gte,
       isCollapsed,
       onMenuItemClick,
       tags,
