@@ -24,9 +24,9 @@
                 <code-menu :code="modelValue">
                     <a-doption @click="onFormatCode">
                         <template #icon>
-                            <icon-copy size="18px" />
+                            <icon-drive-file size="18px" />
                         </template>
-                        代码化代码
+                        格式化代码
                     </a-doption>
                 </code-menu>
             </a-space>

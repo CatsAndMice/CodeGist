@@ -65,7 +65,7 @@
     bottom: '40px'
   }">
 
-    <div class="flex justify-center items-center cursor-pointer bg-white"
+    <div class="back-top flex justify-center items-center cursor-pointer bg-white"
       style="box-shadow: 2px 2px 10px 0 rgba(0,0,0,.15);height: 42px;width: 42px;border-radius: 12px;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor">
         <path
@@ -183,5 +183,11 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(rgb(194, 173, 255), rgb(237, 255, 158));
+}
+
+.back-top {
+  &:hover {
+    transform: scale(1.1) translateZ(30px);
+  }
 }
 </style>
