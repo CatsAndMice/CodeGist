@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/patch-package
 
 
 # local env files

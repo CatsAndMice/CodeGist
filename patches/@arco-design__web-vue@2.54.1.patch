@@ -1,0 +1,85 @@
+diff --git a/es/affix/affix.js b/es/affix/affix.js
+index 7b449284940dee876aa09cf6164438c0539fde6a..f4c40cab8511ad4b00601844dc292650b6add199 100644
+--- a/es/affix/affix.js
++++ b/es/affix/affix.js
+@@ -18,7 +18,7 @@ import { defineComponent, toRefs, ref, computed, onMounted, watchEffect, resolve
+ import ResizeObserver from "../_components/resize-observer.js";
+ import { getPrefixCls } from "../_utils/global-config.js";
+ import { throttleByRaf } from "../_utils/throttle-by-raf.js";
+-import { isWindow, isUndefined } from "../_utils/is.js";
++import { isComponentInstance, isWindow, isUndefined } from "../_utils/is.js";
+ import { getElement, on, off } from "../_utils/dom.js";
+ import _export_sfc from "../_virtual/plugin-vue_export-helper.js";
+ function getTargetRect(target) {
+@@ -54,11 +54,13 @@ const _sfc_main = defineComponent({
+     const prefixCls = getPrefixCls("affix");
+     const { target, targetContainer } = toRefs(props);
+     const wrapperRef = ref();
++    const contentRef = ref();
+     const targetRef = ref();
+     const isFixed = ref(false);
+     const placeholderStyles = ref({});
+     const fixedStyles = ref({});
+     const classNames = computed(() => ({ [prefixCls]: isFixed.value }));
++    const element = computed(() => isComponentInstance(contentRef.value) ? contentRef.value.$el : contentRef.value);
+     const updatePositionThrottle = throttleByRaf(() => {
+       if (!wrapperRef.value || !targetRef.value)
+         return;
+@@ -69,8 +71,8 @@ const _sfc_main = defineComponent({
+       let newIsFixed = false;
+       let newFixedStyles = {};
+       const newPlaceholderStyles = {
+-        width: `${wrapperRef.value.offsetWidth}px`,
+-        height: `${wrapperRef.value.offsetHeight}px`
++        width: `${element.value.offsetWidth}px`,
++        height: `${element.value.offsetHeight}px`
+       };
+       if (offsetType === "top") {
+         newIsFixed = wrapperRect.top - targetRect.top < (offsetTop || 0);
+@@ -90,18 +92,18 @@ const _sfc_main = defineComponent({
+         emit("change", newIsFixed);
+       }
+       placeholderStyles.value = newPlaceholderStyles;
+-      fixedStyles.value = __spreadValues(__spreadValues({}, newFixedStyles), newIsFixed ? newPlaceholderStyles : {});
++      fixedStyles.value = __spreadValues({}, newFixedStyles);
+     });
+     onMounted(() => {
+       watchEffect((onInvalidate) => {
+-        const element = target && target.value !== window && getElement(target.value) || window;
+-        targetRef.value = element;
+-        if (element) {
+-          on(element, "scroll", updatePositionThrottle);
+-          on(element, "resize", updatePositionThrottle);
++        const element2 = target && target.value !== window && getElement(target.value) || window;
++        targetRef.value = element2;
++        if (element2) {
++          on(element2, "scroll", updatePositionThrottle);
++          on(element2, "resize", updatePositionThrottle);
+           onInvalidate(() => {
+-            off(element, "scroll", updatePositionThrottle);
+-            off(element, "resize", updatePositionThrottle);
++            off(element2, "scroll", updatePositionThrottle);
++            off(element2, "resize", updatePositionThrottle);
+           });
+         }
+       });
+@@ -121,6 +123,7 @@ const _sfc_main = defineComponent({
+     });
+     return {
+       wrapperRef,
++      contentRef,
+       isFixed,
+       classNames,
+       placeholderStyles,
+@@ -148,7 +151,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+           class: normalizeClass(_ctx.classNames),
+           style: normalizeStyle(_ctx.fixedStyles)
+         }, [
+-          createVNode(_component_ResizeObserver, { onResize: _ctx.updatePositionThrottle }, {
++          createVNode(_component_ResizeObserver, {
++            ref: "contentRef",
++            onResize: _ctx.updatePositionThrottle
++          }, {
+             default: withCtx(() => [
+               renderSlot(_ctx.$slots, "default")
+             ]),

@@ -1,8 +1,9 @@
 <template>
   <div class="flex" style="background-color: #fafafa;">
     <a-affix @change="isAffix = $event">
-      <a-menu class="py-2" v-model:selected-keys="selectedKeys" @menu-item-click="onMenuItemClick"
-        :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }" :auto-open="true">
+      <a-menu class="py-2" v-model:collapsed="isCollapsed" v-model:selected-keys="selectedKeys"
+        @menu-item-click="onMenuItemClick" :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }"
+        show-collapse-button :auto-open="true">
         <a-menu-item :key="ALL">
           <template #icon>
             <icon-apps size="18px" />
@@ -23,13 +24,17 @@
     </a-affix>
     <div class="grow ml-3 px-3 bg-white">
       <a-affix>
-        <div class="flex justify-end py-2 bg-white">
+        <div class="flex justify-end py-2 bg-white" :style="{
+          width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
+        }">
           <a-input-search v-model="gistParams.name" @clear="onInput" :style="{ 'max-width': '300px' }" @input="onInput"
             :max-length="20" placeholder="请输入 Gist 描述" allow-clear />
         </div>
       </a-affix>
 
-      <div style="width: calc(100vw - 290px);">
+      <div :style="{
+        width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
+      }">
         <template v-if="!gistParams.loading">
           <div v-for="(l, index) in gistList" :key="l.gistId" class="pb-4 select-none "
             @click="onClickGistListItem(l.gistId)">
@@ -105,6 +110,8 @@ export default {
     const tags = shallowRef()
     const isAffix = shallowRef(false)
     const selectedKeys = shallowRef([ALL])
+
+    const isCollapsed = shallowRef(false)
 
     const onClickGistListItem = (gistId) => {
       pageScroll.setTop(document.documentElement.scrollTop)
@@ -182,6 +189,7 @@ export default {
 
     return {
       ALL,
+      isCollapsed,
       onMenuItemClick,
       tags,
       isAffix,
