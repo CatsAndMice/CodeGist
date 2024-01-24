@@ -7,7 +7,7 @@
         <code-edit v-model="code" v-model:language="language" v-model:tags="tags" :default-tags="defaultTags"
             :options="options" />
 
-        <div class="flex justify-end mt-4">
+        <div class="flex justify-end my-4">
             <a-space size="medium">
                 <a-button @click="onExit">
                     <template #icon>

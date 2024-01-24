@@ -1,6 +1,6 @@
 import { db } from "@/db/db"
 import { to } from "await-to-js"
-import { eq, isEmpty, toLower } from "lodash-es"
+import { eq, toLower } from "lodash-es"
 
 export const getGistList = async (params) => {
     const list = {

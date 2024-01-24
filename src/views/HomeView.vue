@@ -94,6 +94,7 @@ import dayjs from "dayjs"
 import { debounce, eq, isEmpty, gte } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
 import CodeMenu from "@/components/CodeMenu.vue"
+import getDocs from "@/api/utools/getDocs"
 
 const ALL = 'ALL'
 let unrefSelectedKeys = ALL
@@ -181,9 +182,11 @@ export default {
     }
 
     // 首次持载也会被触发
-    onActivated(async () => {
-      getList()
-      tags.value = await getTags()
+    onActivated(() => {
+      getDocs(async () => {
+        getList()
+        tags.value = await getTags()
+      })
     })
 
     return {

@@ -81,10 +81,13 @@
 <script>
 import { useRouter, useRoute } from 'vue-router'
 import { eq, hasIn, isEmpty } from "lodash-es"
-import { nextTick, onMounted, ref, shallowRef, unref } from 'vue'
+import { onMounted, ref, shallowRef, unref } from 'vue'
 import giteeLogin from "@/api/usr/giteeLogin"
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    console.log(1212)
+  },
   setup() {
     const pageName = 'create'
     const isUtools = shallowRef(false)
@@ -120,8 +123,10 @@ export default {
         if (utoolsUser) {
           user.value = utoolsUser
         }
+
         //处理utools环境首次进入空白
         router.push({ name: 'homeView' })
+
         return
       }
 
