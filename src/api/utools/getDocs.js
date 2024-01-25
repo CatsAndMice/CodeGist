@@ -1,10 +1,15 @@
-import { eq, hasIn, isEmpty } from "lodash-es"
+import { eq, hasIn, isEmpty, isFunction } from "lodash-es"
 import { db } from "@/db/db"
 import { to } from "await-to-js"
 let isCall = false
 export default async (callback) => {
-    if (!hasIn(window, 'utools')) return
-    console.log(isCall);
+    if (isFunction(callback)) {
+        callback = function () { }
+    }
+    if (!hasIn(window, 'utools')) {
+        callback()
+        return
+    }
     //已执行过
     if (isCall) {
         callback()
