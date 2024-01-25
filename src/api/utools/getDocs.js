@@ -3,7 +3,7 @@ import { db } from "@/db/db"
 import { to } from "await-to-js"
 let isCall = false
 export default async (callback) => {
-    if (isFunction(callback)) {
+    if (!isFunction(callback)) {
         callback = function () { }
     }
     if (!hasIn(window, 'utools')) {
@@ -19,6 +19,7 @@ export default async (callback) => {
     const [err, gists] = await to(db.gistTable.toArray())
     const allDocs = utools.db.allDocs()
     isCall = true
+    console.log(gists,allDocs)
     if (isEmpty(gists)) {
         //重启utools,utools数据同步到本地
         if (!isEmpty(allDocs)) {
@@ -38,7 +39,7 @@ export default async (callback) => {
                 gist._id = gist.gistId
                 //删除版本信息
                 delete gist['_rev']
-                utools.db.put(gist)
+                console.log(utools.db.put(gist));
             }
         })
     }
