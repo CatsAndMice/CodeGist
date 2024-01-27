@@ -28,6 +28,12 @@
                         </template>
                         格式化代码
                     </a-doption>
+                    <a-doption @click="onUpdateFile">
+                        <template #icon>
+                            <icon-folder-add size="18px" />
+                        </template>
+                        上传文件
+                    </a-doption>
                 </code-menu>
             </a-space>
         </div>
@@ -155,6 +161,23 @@ export default {
             codeMirror.autoFormatRange({ line: 0, ch: 0 }, { line: totalLines });
         }
 
+        //上传文件，读取内容
+        const onUpdateFile = () => {
+            const input = document.createElement('input')
+            input.setAttribute('type', 'file')
+            input.onchange = (e) => {
+                const file = e.target.files[0]
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                reader.onload = function (e) {
+                    codeMirror.setOption('value', e.target.result)
+                }
+            }
+            document.body.appendChild(input)
+            input.click()
+            input.remove()
+        }
+
 
         onMounted(() => {
             langs.value = getModes(CodeMirror.modes)
@@ -171,6 +194,7 @@ export default {
         })
 
         return {
+            onUpdateFile,
             label,
             langs,
             lang,

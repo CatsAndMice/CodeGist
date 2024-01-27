@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode development",
+    "serve": "vue-cli-service serve --mode development.local",
     "build": "vue-cli-service build --mode production"
   },
   "dependencies": {
@@ -21,7 +21,6 @@
     "unplugin-vue-components": "^0.26.0",
     "uuid": "^9.0.1",
     "vue": "^3.2.13",
-    "vue-codemirror": "^6.1.1",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

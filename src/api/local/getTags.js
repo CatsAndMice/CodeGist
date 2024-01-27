@@ -4,7 +4,6 @@ import { uniq, isEmpty, flattenDeep } from "lodash-es"
 //获取代码片段的所有标签
 export const getTags = async () => {
     const gist = await db.gistTable.toArray()
-    console.log(gist);
     let gistTags = gist.map(g => g.tags).filter(t => !isEmpty(t))
     gistTags = flattenDeep(gistTags)
     gistTags.sort((a, b) => {

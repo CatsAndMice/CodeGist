@@ -15,10 +15,8 @@ CodeMirror.extendMode("css", {
 //     newlineAfterToken: function (type, content, textAfter, state) {
 //         if (this.jsonMode) {
 //             return /^[\[,{]$/.test(content) || /^}/.test(textAfter);
-//         } else {
-//             if (content == ";" && state.lexical && state.lexical.type == ")") return false;
-//             return /^[;{}]$/.test(content) && !/^;/.test(textAfter);
 //         }
+//         return false
 //     }
 // });
 
