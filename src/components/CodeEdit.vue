@@ -16,7 +16,7 @@
                         <icon-down />
                     </template>
                     <template #content>
-                        <a-doption>纯文本</a-doption>
+                        <!-- <a-doption>纯文本</a-doption> -->
                         <a-doption v-for="l in langs" :key="l" :value="l">{{ l }}</a-doption>
                     </template>
                 </a-dropdown-button>
@@ -60,6 +60,8 @@ import 'codemirror/mode/yaml/yaml'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/php/php'
+import 'codemirror/mode/go/go'
+import 'codemirror/mode/markdown/markdown'
 import '@/utils/formatCode'
 
 //shell、yaml、dockerfile、dart、python、rust、markdown、java,c,cpp、htmlmixed、css、javascript、sql
@@ -67,7 +69,7 @@ const clikeObject = {
     'java': 'text/x-java',
     'c': 'text/x-csrc',
     'c++': 'text/x-c++src',
-    html: 'htmlmixed'
+    html: 'htmlmixed',
 }
 export default {
     name: "CodeEdit",
@@ -123,7 +125,9 @@ export default {
         }
 
         const getModes = (modesObj) => {
+            console.log(modesObj)
             const cloneModes = clone(modesObj)
+            delete cloneModes['vue-template']
             cloneModes['java'] = cloneModes.clike
             cloneModes['c'] = cloneModes.clike
             cloneModes['c++'] = cloneModes.clike

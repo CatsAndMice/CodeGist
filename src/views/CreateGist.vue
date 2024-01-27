@@ -54,7 +54,7 @@ export default {
         const description = shallowRef('')
         const code = shallowRef('')
         // 获取曾经选择的语言类型
-        const lang = eq(mode, CREATE) ? (localStorage.getItem('language') || '') : ''
+        const lang = eq(mode, CREATE) ? (localStorage.getItem('language') || 'markdown') : ''
         const language = shallowRef(lang)
         const loading = ref(false)
         const isDisabled = ref(false)
@@ -213,14 +213,16 @@ export default {
 </script>
 <style lang="less" scoped>
 .create-header {
-    .create-header--title{
+    .create-header--title {
         padding: 40px;
         margin: 0;
         font-size: 32px;
         font-weight: 300;
     }
+
     margin-top: -1px;
-    background-image: linear-gradient(rgba(255, 255, 255, 0) 60%, rgb(255, 255, 255)), linear-gradient(70deg, rgb(221, 244, 255) 32%, rgb(218, 251, 225));
+    background-image: linear-gradient(rgba(255, 255, 255, 0) 60%, rgb(255, 255, 255)),
+    linear-gradient(70deg, rgb(221, 244, 255) 32%, rgb(218, 251, 225));
 }
 
 .create-gist {
