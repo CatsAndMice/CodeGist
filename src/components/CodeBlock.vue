@@ -45,6 +45,8 @@ import rust from "highlight.js/lib/languages/rust"
 import php from "highlight.js/lib/languages/php"
 import go from "highlight.js/lib/languages/go"
 import markdown from 'highlight.js/lib/languages/markdown'
+import json from 'highlight.js/lib/languages/json'
+import typescript from 'highlight.js/lib/languages/typescript'
 import { toRefs, unref } from 'vue'
 
 const modes = {
@@ -58,12 +60,14 @@ const modes = {
     php,
     python,
     c,
+    json,
     go,
     dart,
     yaml,
     cpp,
     dockerfile,
-    markdown
+    markdown,
+    typescript
 }
 Object.keys(modes).forEach(m => {
     hljs.registerLanguage(m, modes[m])

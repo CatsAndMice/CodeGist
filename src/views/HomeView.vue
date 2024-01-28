@@ -1,6 +1,6 @@
 <template>
   <div class="flex" style="background-color: #fafafa;">
-    <a-affix @change="isAffix = $event">
+    <a-affix @change="isAffix = $event" class="bg-white">
       <a-menu class="py-2" v-model:collapsed="isCollapsed" v-model:selected-keys="selectedKeys"
         @menu-item-click="onMenuItemClick" :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }"
         show-collapse-button :auto-open="true">
@@ -121,8 +121,7 @@ export default {
     const onClickCreate = () => {
       router.push({ name: 'create' })
     }
-
-
+    
     const onMenuItemClick = (key) => {
       unrefSelectedKeys = key
       gistParams.name = ''

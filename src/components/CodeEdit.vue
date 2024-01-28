@@ -70,6 +70,9 @@ const clikeObject = {
     'c': 'text/x-csrc',
     'c++': 'text/x-c++src',
     html: 'htmlmixed',
+    json: 'application/json',
+    javascript: 'text/javascript',
+    typescript: 'text/typescript'
 }
 export default {
     name: "CodeEdit",
@@ -125,12 +128,14 @@ export default {
         }
 
         const getModes = (modesObj) => {
-            console.log(modesObj)
             const cloneModes = clone(modesObj)
             delete cloneModes['vue-template']
             cloneModes['java'] = cloneModes.clike
             cloneModes['c'] = cloneModes.clike
             cloneModes['c++'] = cloneModes.clike
+            cloneModes['json'] = cloneModes.javascript
+            cloneModes['javascript'] = cloneModes.javascript
+            cloneModes['typescript'] = cloneModes.javascript
             cloneModes['html'] = cloneModes.htmlmixed
             delete cloneModes['clike']
             delete cloneModes['htmlmixed']

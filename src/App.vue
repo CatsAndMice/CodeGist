@@ -1,7 +1,7 @@
 <template>
   <!-- 头部 -->
   <div style="background-color: #24292f;--color-text-1:#fff;">
-    <a-page-header title="CodeGist" subtitle="即刻记录笔记、代码" :show-back="false">
+    <a-page-header title="CodeGist" subtitle="即刻记录代码片段" :show-back="false">
       <template #title>
         <span class="title">CodeGist</span>
       </template>
@@ -14,7 +14,6 @@
               </template>
             </a-button>
           </div>
-
           <div class="ml-8">
             <a-dropdown position="tr">
               <a-avatar class="cursor-pointer" :image-url="user.avatar">{{ isEmpty(user) ? '未登录' : '' }}</a-avatar>

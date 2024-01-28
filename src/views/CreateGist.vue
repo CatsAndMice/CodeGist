@@ -214,7 +214,7 @@ export default {
 <style lang="less" scoped>
 .create-header {
     .create-header--title {
-        padding: 40px;
+        padding: 20px;
         margin: 0;
         font-size: 32px;
         font-weight: 300;
