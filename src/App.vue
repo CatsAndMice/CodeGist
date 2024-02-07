@@ -84,9 +84,6 @@ import { onMounted, ref, shallowRef, unref } from 'vue'
 import giteeLogin from "@/api/usr/giteeLogin"
 
 export default {
-  beforeRouteEnter(to, from, next) {
-    console.log(1212)
-  },
   setup() {
     const pageName = 'create'
     const isUtools = shallowRef(false)

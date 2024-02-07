@@ -3,22 +3,56 @@
     <a-affix @change="isAffix = $event" class="bg-white">
       <a-menu class="py-2" v-model:collapsed="isCollapsed" v-model:selected-keys="selectedKeys"
         @menu-item-click="onMenuItemClick" :style="{ width: '250px', height: isAffix ? '100vh' : 'calc(100vh - 72px)' }"
-        show-collapse-button :auto-open="true">
+        show-collapse-button :auto-open="true" breakpoint="md">
         <a-menu-item :key="ALL">
           <template #icon>
             <icon-apps size="18px" />
           </template>
           全部
         </a-menu-item>
+
         <a-sub-menu key="1">
-          <template #title>全部标签</template>
-          <template #icon><icon-tags size="18px" /></template>
-          <a-menu-item v-for="tag in tags" :key="tag">
+          <template #title>置顶标签</template>
+          <template #icon><icon-pushpin size="18px" /></template>
+          <a-menu-item v-for="tag in topTags" :key="tag" class="label">
             <template #icon>
               <icon-tag size="18px" />
             </template>
-            {{ tag }}
+            <span class="flex w-full items-center justify-between">
+              <span class="grow truncate">{{ tag }}</span>
+              <a-dropdown @click.stop popup-container=".arco-menu-inner">
+                <a-button class="more" style="width: auto;height: auto;background-color: transparent;">
+                  <template #icon><icon-more size="18px" style="margin: 0;" /></template>
+                </a-button>
+                <template #content>
+                  <a-doption @click="onCancelLabelTop(tag)">取消置顶</a-doption>
+                </template>
+              </a-dropdown>
+            </span>
           </a-menu-item>
+        </a-sub-menu>
+
+        <a-sub-menu key="2">
+          <template #title>全部标签</template>
+          <template #icon><icon-tags size="18px" /></template>
+          <template v-for="tag in tags">
+            <a-menu-item v-if="!topTags.includes(tag)" :key="tag" class="label">
+              <template #icon>
+                <icon-tag size="18px" />
+              </template>
+              <span class="flex w-full items-center justify-between">
+                <span class="grow truncate">{{ tag }}</span>
+                <a-dropdown @click.stop popup-container=".arco-menu-inner">
+                  <a-button class="more" style="width: auto;height: auto;background-color: transparent;">
+                    <template #icon><icon-more size="18px" style="margin: 0;" /></template>
+                  </a-button>
+                  <template #content>
+                    <a-doption @click="onLabelTop(tag)">标签置顶</a-doption>
+                  </template>
+                </a-dropdown>
+              </span>
+            </a-menu-item>
+          </template>
         </a-sub-menu>
       </a-menu>
     </a-affix>
@@ -90,6 +124,9 @@ import { useRouter } from "vue-router"
 import { reactive, ref, onActivated, shallowRef } from "vue"
 import { getGistList } from "@/api/local/getGistList"
 import { getTags } from "@/api/local/getTags"
+import { setTopLabel } from "@/api/local/setTopLabel"
+import { getTopLabel } from "@/api/local/getTopLabel"
+import { cancelTopLabel } from "@/api/local/cancelTopLabel"
 import dayjs from "dayjs"
 import { debounce, eq, isEmpty, gte } from "lodash-es"
 import pageScroll from "@/utils/pageScroll"
@@ -107,8 +144,13 @@ export default {
     const router = useRouter()
     const gistParams = reactive({ page: 1, size: 10, loading: false, hasMore: true, total: 0, name: '', tag: '' })
     const gistList = ref([])
-    const tags = shallowRef()
+    const tags = shallowRef([])
+
+    //置顶标签
+    const topTags = shallowRef([])
+
     const isAffix = shallowRef(false)
+
     const selectedKeys = shallowRef([ALL])
 
     const isCollapsed = shallowRef(false)
@@ -121,8 +163,9 @@ export default {
     const onClickCreate = () => {
       router.push({ name: 'create' })
     }
-    
+
     const onMenuItemClick = (key) => {
+      console.log(key);
       unrefSelectedKeys = key
       gistParams.name = ''
       gistParams.page = 1
@@ -161,6 +204,18 @@ export default {
 
     const onInput = debounce(getList, 1000)
 
+    const onLabelTop = (tag) => {
+      setTopLabel(tag).then(() => {
+        getAllTypeLabel()
+      })
+    }
+
+    const onCancelLabelTop = (tag) => {
+      cancelTopLabel(tag).then(() => {
+        getAllTypeLabel()
+      })
+    }
+
     const onPrevPage = () => {
       pageScroll.setTop()
       gistParams.page--
@@ -180,15 +235,27 @@ export default {
       }
     }
 
+    const getAllTypeLabel = () => {
+      Promise.all([getTags(), getTopLabel()]).then(labels => {
+        const [label, topLabel] = labels
+        console.log(topLabel)
+        tags.value = label
+        topTags.value = topLabel
+      })
+    }
+
     // 首次持载也会被触发
     onActivated(() => {
       getDocs(async () => {
         getList()
-        tags.value = await getTags()
+        getAllTypeLabel()
       })
     })
 
     return {
+      onCancelLabelTop,
+      topTags,
+      onLabelTop,
       ALL,
       gte,
       isCollapsed,
@@ -222,6 +289,18 @@ export default {
       .code-menu {
         display: inline-block;
       }
+    }
+  }
+}
+
+.label {
+  .more {
+    opacity: 0;
+  }
+
+  &:hover {
+    .more {
+      opacity: 1;
     }
   }
 }
