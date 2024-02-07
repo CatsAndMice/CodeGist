@@ -21,7 +21,10 @@
             <span class="flex w-full items-center justify-between">
               <span class="grow truncate">{{ tag }}</span>
               <a-dropdown @click.stop popup-container=".arco-menu-inner">
-                <a-button class="more" style="width: auto;height: auto;background-color: transparent;">
+                <a-button :class="{
+                  more: true,
+                  hidden: isCollapsed
+                }" style="width: auto;height: auto;background-color: transparent;">
                   <template #icon><icon-more size="18px" style="margin: 0;" /></template>
                 </a-button>
                 <template #content>
@@ -43,7 +46,10 @@
               <span class="flex w-full items-center justify-between">
                 <span class="grow truncate">{{ tag }}</span>
                 <a-dropdown @click.stop popup-container=".arco-menu-inner">
-                  <a-button class="more" style="width: auto;height: auto;background-color: transparent;">
+                  <a-button :class="{
+                    more: true,
+                    hidden: isCollapsed
+                  }" style="width: auto;height: auto;background-color: transparent;">
                     <template #icon><icon-more size="18px" style="margin: 0;" /></template>
                   </a-button>
                   <template #content>
@@ -165,7 +171,6 @@ export default {
     }
 
     const onMenuItemClick = (key) => {
-      console.log(key);
       unrefSelectedKeys = key
       gistParams.name = ''
       gistParams.page = 1
@@ -204,12 +209,14 @@ export default {
 
     const onInput = debounce(getList, 1000)
 
+    //标签置顶
     const onLabelTop = (tag) => {
       setTopLabel(tag).then(() => {
         getAllTypeLabel()
       })
     }
 
+    //取消置顶
     const onCancelLabelTop = (tag) => {
       cancelTopLabel(tag).then(() => {
         getAllTypeLabel()
@@ -235,6 +242,7 @@ export default {
       }
     }
 
+    //获取全部标签、置顶标签
     const getAllTypeLabel = () => {
       Promise.all([getTags(), getTopLabel()]).then(labels => {
         const [label, topLabel] = labels
