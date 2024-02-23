@@ -27,7 +27,7 @@
 <script>
 import { onBeforeMount, onMounted, ref, shallowRef, unref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
-import { trim, isEmpty, eq, hasIn } from "lodash-es"
+import { trim, isEmpty, eq, hasIn, unset } from "lodash-es"
 import { useRouter, useRoute } from "vue-router"
 import { Notification } from '@arco-design/web-vue'
 import { create } from "@/api/local/create"
@@ -70,8 +70,10 @@ export default {
         const onRecord = (param) => {
             if (hasIn(window, 'utools')) {
                 const utoolsUser = utools.getUser()
+                //数据中不能存在_id 
                 if (utoolsUser) {
                     param = { ...param, ...utoolsUser }
+                    unset(param, '_id')
                 }
             } else {
                 //使用gitee登陆
