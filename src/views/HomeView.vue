@@ -246,7 +246,6 @@ export default {
     const getAllTypeLabel = () => {
       Promise.all([getTags(), getTopLabel()]).then(labels => {
         const [label, topLabel] = labels
-        console.log(topLabel)
         tags.value = label
         topTags.value = topLabel
       })
