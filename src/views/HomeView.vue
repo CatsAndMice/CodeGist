@@ -247,7 +247,16 @@ export default {
       Promise.all([getTags(), getTopLabel()]).then(labels => {
         const [label, topLabel] = labels
         tags.value = label
-        topTags.value = topLabel
+
+        //置顶标签必须来自全部标签分组内
+        topTags.value = topLabel.map(t => {
+          const isIncludes = label.includes(t)
+          if (isIncludes) {
+            return t
+          }
+          cancelTopLabel(t)
+          return null
+        }).filter(v => !isEmpty(v))
       })
     }
 
