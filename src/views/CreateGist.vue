@@ -93,9 +93,12 @@ export default {
         }
 
         const onCreate = async () => {
+            //使用gitee登陆
+            const user = db.getSionDb('user')
             const codeParams = {
                 description: unref(description),
                 gistId: uuidv4(),
+                userId: user.id,
                 code: unref(code),
                 language: unref(language),
                 editTime: Date.now(),
@@ -125,10 +128,12 @@ export default {
         }
 
         const onChange = async () => {
+            const user = db.getSionDb('user')
             const codeParams = {
                 description: unref(description),
                 gistId: route.query.gistId,
                 code: unref(code),
+                userId: user.id,
                 language: unref(language),
                 editTime: Date.now(),
                 tags: unref(tags)
