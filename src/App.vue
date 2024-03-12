@@ -7,13 +7,19 @@
       </template>
       <template #extra>
         <div class="flex items-center">
-          <div v-show="!eq(route.name, pageName)" style="height: 30px;">
-            <a-button type="text" @click="onClickPlus" style="width: 30px;height: 30px;">
+
+          <div class="mr-8" v-show="!eq(route.name, pageName)" style="height: 30px;">
+            <a-button type="text" @click="onClickPlus" style="width: 25px;height: 25px;">
               <template #icon>
-                <icon-plus size="20px" style="color:#fff;" />
+                <icon-plus size="25px" style="color: #fff;" />
               </template>
             </a-button>
           </div>
+          <a-link class="m-0" style="--color-fill-2:transparent;--color-fill-3:transparent;" href="https://github.com/CatsAndMice/CodeGist">
+            <template #icon>
+              <icon-github class="cursor-pointer" size="25px" style="color: #fff;" />
+            </template>
+          </a-link>
           <div class="ml-8">
             <a-dropdown position="tr">
               <a-avatar class="cursor-pointer" :image-url="user.avatar">{{ isEmpty(user) ? '未登录' : '' }}</a-avatar>
@@ -59,10 +65,10 @@
   </div>
 
   <a-back-top :style="{
-    position: 'fixed',
-    right: '40px',
-    bottom: '40px'
-  }">
+      position: 'fixed',
+      right: '40px',
+      bottom: '40px'
+    }">
 
     <div class="back-top flex justify-center items-center cursor-pointer bg-white"
       style="box-shadow: 2px 2px 10px 0 rgba(0,0,0,.15);height: 42px;width: 42px;border-radius: 12px;">
