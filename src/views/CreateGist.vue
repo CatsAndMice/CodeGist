@@ -185,6 +185,7 @@ export default {
             code.value = gist.code
             description.value = gist.description
             defaultTags.value = gist.tags || []
+            tags.value = gist.tags || []
             isEdit.value = true
         })
 
