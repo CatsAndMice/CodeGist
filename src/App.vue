@@ -15,7 +15,8 @@
               </template>
             </a-button>
           </div>
-          <a-link class="m-0" style="--color-fill-2:transparent;--color-fill-3:transparent;" href="https://github.com/CatsAndMice/CodeGist">
+          <a-link class="m-0" @click="onClickHref" style="--color-fill-2:transparent;--color-fill-3:transparent;"
+            href="javascript:void 0">
             <template #icon>
               <icon-github class="cursor-pointer" size="25px" style="color: #fff;" />
             </template>
@@ -88,6 +89,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { eq, hasIn, isEmpty } from "lodash-es"
 import { onMounted, ref, shallowRef, unref } from 'vue'
 import giteeLogin from "@/api/usr/giteeLogin"
+import { Message } from '@arco-design/web-vue'
 
 export default {
   setup() {
@@ -111,6 +113,24 @@ export default {
       giteeLogin.onExit()
       giteeLogin.onLogin()
     }
+
+    // 跳转链接
+    const onClickHref = () => {
+      const href = 'https://github.com/CatsAndMice/CodeGist'
+
+      if (hasIn(window, 'utools')) {
+        utools.copyText(href)
+        Message.success({
+          showIcon: true,
+          closable: true,
+          content: '成功复制链接'
+        })
+        return
+      }
+
+      window.open(href)
+    }
+
 
     const onExit = () => {
       giteeLogin.onExit()
@@ -157,6 +177,7 @@ export default {
     })
 
     return {
+      onClickHref,
       route,
       eq,
       user,
