@@ -1,5 +1,5 @@
 <template>
-    <a-dropdown @click.stop position="br" :popup-container="popupContainer || 'body'">
+    <a-dropdown @click.stop position="br" trigger='hover' :popup-container="popupContainer">
         <a-button class="code-menu">
             <template #icon>
                 <icon-more size="24px" />
@@ -19,7 +19,7 @@
 <script>
 import { toRefs, unref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import { hasIn, uniqueId } from "lodash-es"
+import { hasIn } from "lodash-es"
 export default {
     props: {
         code: {
@@ -33,7 +33,6 @@ export default {
     },
     setup(props) {
         const { code } = toRefs(props)
-        const codeMenuClass = uniqueId('code-menu')
         const onCopy = () => {
             const type = "text/plain";
             const blob = new Blob([unref(code)], { type });
@@ -75,8 +74,7 @@ export default {
         }
 
         return {
-            onCopy,
-            codeMenuClass
+            onCopy
         }
     },
 }

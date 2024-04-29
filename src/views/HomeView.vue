@@ -22,9 +22,9 @@
               <span class="grow truncate">{{ tag }}</span>
               <a-dropdown @click.stop popup-container=".arco-menu-inner">
                 <a-button :class="{
-                  more: true,
-                  hidden: isCollapsed
-                }" style="width: auto;height: auto;background-color: transparent;">
+      more: true,
+      hidden: isCollapsed
+    }" style="width: auto;height: auto;background-color: transparent;">
                   <template #icon><icon-more size="18px" style="margin: 0;" /></template>
                 </a-button>
                 <template #content>
@@ -47,9 +47,9 @@
                 <span class="grow truncate">{{ tag }}</span>
                 <a-dropdown @click.stop popup-container=".arco-menu-inner">
                   <a-button :class="{
-                    more: true,
-                    hidden: isCollapsed
-                  }" style="width: auto;height: auto;background-color: transparent;">
+      more: true,
+      hidden: isCollapsed
+    }" style="width: auto;height: auto;background-color: transparent;">
                     <template #icon><icon-more size="18px" style="margin: 0;" /></template>
                   </a-button>
                   <template #content>
@@ -65,16 +65,16 @@
     <div class="grow ml-3 px-3 bg-white">
       <a-affix>
         <div class="flex justify-end py-2 bg-white" :style="{
-          width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
-        }">
+      width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
+    }">
           <a-input-search v-model="gistParams.name" @clear="onInput" :style="{ 'max-width': '300px' }" @input="onInput"
             :max-length="20" placeholder="请输入 Gist 描述" allow-clear />
         </div>
       </a-affix>
 
       <div :style="{
-        width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
-      }">
+      width: isCollapsed ? 'calc(100vw - 88px)' : 'calc(100vw - 290px)'
+    }">
         <template v-if="!gistParams.loading">
           <div v-for="(l, index) in gistList" :key="l.gistId" class="pb-4 select-none "
             @click="onClickGistListItem(l.gistId)">
@@ -83,7 +83,7 @@
               <div class="pl-2 grow text-nowrap truncate">
                 <a-link class="text-base font-semibold" :hoverable="false">{{ 'Gist:' + l.gistId }}</a-link>
                 <p class="m-0 text-xs truncate" style="color:rgb(101, 109, 118);">{{ '编辑于 ' +
-                  dayjs(l.editTime).fromNow() }}</p>
+      dayjs(l.editTime).fromNow() }}</p>
                 <p class="m-0 text-xs truncate" style="color:rgb(101, 109, 118);width: 100%;">{{ l.description }}</p>
               </div>
             </div>
@@ -296,13 +296,15 @@ export default {
 .code-hover {
   :deep {
     .code-menu {
-      display: none;
+      width: 0;
+      overflow: hidden;
     }
 
     &:hover {
       border-color: rgb(22, 93, 255);
-
+     
       .code-menu {
+        width: 32px;
         display: inline-block;
       }
     }
