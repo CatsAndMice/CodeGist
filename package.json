@@ -37,8 +37,6 @@
     "tailwindcss": "^3.4.0"
   },
   "pnpm": {
-    "patchedDependencies": {
-      "@arco-design/web-vue@2.54.1": "patches/@arco-design__web-vue@2.54.1.patch"
-    }
+
   }
 }
