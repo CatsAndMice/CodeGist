@@ -4,7 +4,11 @@ const app = express();
 const router = Router();
 
 router.get('/healthcheck', (_req, res) => {
-    res.status(200).json({ success: true, message: 'API is running' });
+    res.status(200).json({
+        message: "测试成功",
+        status: "成功"
+    });
+
 })
 
 app.use("/api", router);
