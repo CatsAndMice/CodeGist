@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 const router = Router();
 app.use(express.json())
-router.post('/healthcheck', (_req, res) => {
+router.get('/healthcheck', (_req, res) => {
     const body = _req.json(_req.body)
     axios.post(body.sessionWebhook,{
         contentType:'ai_card',
