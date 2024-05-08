@@ -6,7 +6,7 @@ const router = Router();
 app.use(express.json())
 router.get('/healthcheck', (_req, res) => {
     // const body = _req.json(_req.body)
-    console.warn(JSON.stringify(_req.body))
+    console.warn(JSON.stringify(_req.body),'body')
     if (_req.body.sessionWebhook) {
 
         axios.post(_req.body.sessionWebhook, {
