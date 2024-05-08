@@ -6,7 +6,7 @@ const router = Router();
 app.use(express.json())
 router.get('/healthcheck', (_req, res) => {
     // const body = _req.json(_req.body)
-    // console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
+    console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
     if (_req.query.sessionWebhook) {
         axios.post(_req.query.sessionWebhook, {
             contentType: 'ai_card',
@@ -20,11 +20,8 @@ router.get('/healthcheck', (_req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res => {
-            console.warn(res, 'res')
-        }, err => {
-            console.warn(err, 'err')
         })
+
     }
 
 
