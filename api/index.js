@@ -4,12 +4,11 @@ const axios = require('axios');
 const app = express();
 const router = Router();
 app.use(express.json())
-router.get('/healthcheck',async (_req, res) => {
+router.get('/healthcheck', (_req, res) => {
     // const body = _req.json(_req.body)
-    console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
+    // console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
     if (_req.query.sessionWebhook) {
-
-       const data = await axios.post(_req.query.sessionWebhook, {
+        axios.post(_req.query.sessionWebhook, {
             contentType: 'ai_card',
             content: {
                 templateId: '8b9c6221-65b1-462d-9e8a-d0339140904f.schema',
@@ -21,9 +20,11 @@ router.get('/healthcheck',async (_req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then(res => {
+            console.warn(res, 'res')
+        }, err => {
+            console.warn(err, 'err')
         })
-
-        console.warn(JSON.stringify(data), 'data')
     }
 
 
