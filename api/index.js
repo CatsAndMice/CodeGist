@@ -21,11 +21,8 @@ router.get('/healthcheck', (_req, res) => {
                 'Content-Type': 'application/json'
             }
         })
-
+        return
     }
-
-
-
     res.status(200).json({
         message: "测试成功",
         status: "成功"
