@@ -5,9 +5,8 @@ const app = express();
 const router = Router();
 app.use(express.json())
 router.get('/healthcheck', (_req, res) => {
-    // const body = _req.json(_req.body)
-    console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
     if (_req.query.sessionWebhook) {
+        console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
         axios.post(_req.query.sessionWebhook, {
             contentType: 'ai_card',
             content: {
@@ -20,6 +19,16 @@ router.get('/healthcheck', (_req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then(() => {
+            res.status(200).json({
+                message: "测试成功",
+                status: "成功"
+            });
+        }, () => {
+            res.status(200).json({
+                message: "测试成功",
+                status: "成功"
+            });
         })
         return
     }
