@@ -12,7 +12,7 @@ router.get('/healthcheck', (_req, res) => {
         axios.post(_req.query.sessionWebhook, {
             contentType: 'ai_card',
             content: {
-                templateId: '38d66950-4638-446b-81c4-edddb08d12c3.schema',
+                templateId: '8b9c6221-65b1-462d-9e8a-d0339140904f.schema',
                 cardData: {
                     content: 'Hello World'
                 }
