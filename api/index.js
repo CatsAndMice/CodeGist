@@ -1,45 +1,52 @@
 const express = require("express");
 const { Router } = require('express');
 const axios = require('axios');
+const cors = require('cors');
 const app = express();
 const router = Router();
+
+app.use(cors())
 app.use(express.json())
-router.get('/healthcheck', (_req, res) => {
-    if (_req.query.sessionWebhook) {
-        console.warn(JSON.stringify(_req.body), JSON.stringify(_req.query), 'body')
-        axios.post(_req.query.sessionWebhook, {
-            contentType: 'ai_card',
-            content: {
-                templateId: '8b9c6221-65b1-462d-9e8a-d0339140904f.schema',
-                cardData: {
-                    content: 'Hello World'
-                }
-            }
-        }, {
+
+router.get('/access-token', (_req, res) => {
+    axios.post('https://api.dingtalk.com/v1.0/oauth2/accessToken', {
+        "appKey": "dingc4yraklugv0j375t",
+        "appSecret": "qrp6G_IkpT7JtFxGdrKkO5ajjkAdpWSRXOkob7tfZfj1GAR9dHELuLGynoy9XHZG"
+    },
+        {
             headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(() => {
-            res.status(200).json({
-                message: "测试成功",
-                status: "成功"
-            });
+                'Content-Type': 'application/json',
+            },
+        }).then(result => {
+            res.status(200).json({ code: 200, data: result.data });
         }, () => {
-            res.status(200).json({
-                message: "测试成功",
-                status: "成功"
-            });
+            res.status(200).json({ code: 200, data: null });
         })
-        return
-    }
-    res.status(200).json({
-        message: "测试成功",
-        status: "成功"
-    });
 })
+
+
+
+
+router.get('/micro-app', (_req, res) => {
+    const query = _req.query || {}
+    if (query.accessToken) {
+        axios.get('https://api.dingtalk.com/v1.0/microApp/allInnerApps', {
+            headers: {
+                'x-acs-dingtalk-access-token': query.accessToken,
+                'Content-Type': 'application/json',
+            }
+        }).then(result => {
+            res.status(200).json({ code: 200, data: result.data.appList });
+        }, () => {
+            res.status(200).json({ code: 200, data: null });
+        })
+    }
+
+})
+
 
 app.use("/api", router);
 
-app.listen(9000, () => console.log("Server ready on port 9090"));
+app.listen(9000, () => console.log("Server ready on port 9000"));
 
 module.exports = app;
