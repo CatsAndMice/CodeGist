@@ -6,6 +6,7 @@ const qs = require('qs');
 const md5 = require("js-md5");
 const app = express();
 const router = Router();
+const wechat = require('./wechat');
 
 app.use(cors())
 app.use(express.json())
@@ -25,8 +26,6 @@ router.get('/access-token', (_req, res) => {
             res.status(200).json({ code: 200, data: null });
         })
 })
-
-
 
 
 router.get('/micro-app', (_req, res) => {
@@ -56,14 +55,14 @@ router.get('/yida-app', (_req, res) => {
             }
         }).then((result) => {
             const userid = result.data.result.userid;
-            const token =  "JFYJPKDVR3XL7KIRYM50K03AUU7R12J2IRQIKL"
+            const token = "JFYJPKDVR3XL7KIRYM50K03AUU7R12J2IRQIKL"
             const md32 = md5('ding35ba782b379de863a39a90f97fcb1e09' + userid + token)
             const params = {
                 token: md32.toUpperCase(),
                 corpId: 'ding35ba782b379de863a39a90f97fcb1e09',
                 userId: userid,
-                pageSize:100,
-                pageNumber:1
+                pageSize: 100,
+                pageNumber: 1
             }
             console.log(params);
             axios.get('https://api.dingtalk.com/v1.0/yida/organizations/applications?' + qs.stringify(params), {
@@ -81,6 +80,7 @@ router.get('/yida-app', (_req, res) => {
 })
 
 
+router.use(wechat)
 
 app.use("/api", router);
 
