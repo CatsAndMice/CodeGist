@@ -125,7 +125,7 @@ router.post('/wechat/work', async (res, req) => {
         working_hours =  ${workingHours},
         average_daily_firewood = ${averageDailyFirewood}
         ;`));
-    console.log(err);
+
     if (err) {
         req.status(200).send({
             code: 500,
@@ -134,7 +134,8 @@ router.post('/wechat/work', async (res, req) => {
         })
         return
     }
-    req.status(200).send({
+    console.error(err);
+    req.status(500).send({
         code: 200,
         data: null,
         msg: '请求成功'
