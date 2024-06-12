@@ -6,6 +6,8 @@ const qs = require('qs');
 const md5 = require("js-md5");
 const app = express();
 const router = Router();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env.local') });
 const wechat = require('./wechat');
 
 app.use(cors())
