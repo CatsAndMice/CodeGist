@@ -125,6 +125,7 @@ router.post('/wechat/work', async (res, req) => {
         working_hours =  ${workingHours},
         average_daily_firewood = ${averageDailyFirewood}
         ;`));
+    console.log(err);
     if (err) {
         req.status(200).send({
             code: 500,
