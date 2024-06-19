@@ -125,7 +125,7 @@ router.post('/wechat/work', async (res, req) => {
         working_hours =  ${workingHours},
         average_daily_firewood = ${averageDailyFirewood}
         ;`));
-   
+
     if (err) {
         req.status(200).send({
             code: 500,
@@ -134,7 +134,7 @@ router.post('/wechat/work', async (res, req) => {
         })
         return
     }
-  
+
     req.status(200).send({
         code: 200,
         data: null,
@@ -145,6 +145,7 @@ router.post('/wechat/work', async (res, req) => {
 router.get('/wechat/work', async (res, req) => {
     const [err, result] = await to(pool.query(`
     SELECT 
+       t_work.open_id,
         t_work.result,
         t_work.start_work_time,
         t_work.occupation,
@@ -172,7 +173,7 @@ router.get('/wechat/work', async (res, req) => {
                 t_work.result 
         DESC 
         LIMIT 100;`));
-
+    console.log(err)
     if (result && !isEmpty(result.rows)) {
         req.status(200).send({
             code: 200,
@@ -181,7 +182,6 @@ router.get('/wechat/work', async (res, req) => {
         })
         return
     }
-    console.log(err);
     req.status(200).send({
         code: 200,
         data: [],
