@@ -7,7 +7,7 @@ const createUser = require('./createUser');
 const pool = require('../db.js');
 const { to } = require("await-to-js");
 const { isEmpty } = require('lodash');
-const { selectWorkSql, getInfoSql } = require('./sql');
+const { selectWorkSql, getInfoSql, getInsertWorkSql, getSelectUserWorkSql } = require('./sql');
 
 //登录
 router.get('/wechat/login', (res, req) => {
@@ -55,16 +55,33 @@ router.get('/wechat/login', (res, req) => {
 //获取用户信息
 router.get('/wechat/info', async (res, req) => {
     const { openId } = res.query
+    const sql = getSelectUserWorkSql(openId)
+    console.log(sql)
+    const [userWorkErr, userWork] = await to(pool.query(sql));
+    console.log(userWorkErr, userWork);
+    if (userWork) {
+        const data = userWork.rows[0]
+        if (data) {
+            req.status(200).send({
+                code: 200,
+                data: { ...data, isTest: true },
+                msg: '请求成功'
+            })
+            return
+        }
+    }
     const [err, result] = await to(pool.query(getInfoSql(openId)));
     if (result) {
         const data = result.rows[0]
         req.status(200).send({
             code: 200,
-            data,
+            data: { ...data, isTest: false },
             msg: '请求成功'
         })
         return
     }
+
+
     req.status(200).send({
         code: 503,
         data: null,
@@ -72,7 +89,9 @@ router.get('/wechat/info', async (res, req) => {
     })
 })
 
+
 router.post('/wechat/work', async (res, req) => {
+    console.log(getInsertWorkSql)
     const [err] = await to(pool.query(getInsertWorkSql(res.body)));
 
     if (err) {
